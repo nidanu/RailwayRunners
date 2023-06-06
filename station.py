@@ -6,10 +6,8 @@ class Station:
         self.y = y
         self.x = x
 
-
     def add_connection(self, station, time):
        self.connections[station] = time
-
 
     def check_connection(self, station):
        if station in self.connections.keys():

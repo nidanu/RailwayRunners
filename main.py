@@ -1,4 +1,5 @@
 from station import Station
+from train import Train
 
 stations = []
 
@@ -28,7 +29,7 @@ with open("ConnectiesHolland.csv", "r") as f:
         station_1 = connection[0]
         station_2 = connection[1]
         traveltime = connection[2].split('\n')
-        traveltime = traveltime[0]
+        traveltime = int(traveltime[0])
 
         for i in range(22):
             if stations[i].station_name == station_1:
@@ -38,3 +39,27 @@ with open("ConnectiesHolland.csv", "r") as f:
                 
     for i in range(22):
         print(stations[i].connections)
+print()
+
+# Create Train object
+train = Train(stations[0].station_name)
+print(train.train_name)
+
+# Add destination Den Helder
+try:
+    train.add_destination(stations[10].station_name, stations[0].connections[(stations[10].station_name)])
+    print(f"Added: {stations[10].station_name}")
+except:
+    print("Connection not available")    
+print(train.travel_time)
+print(train.destination_history)
+print()
+
+# Add destination Dordrecht
+try:
+    train.add_destination(stations[11].station_name, stations[0].connections[(stations[11].station_name)])
+    print(f"Added: {stations[11].station_name}")
+except:
+    print("Connection not available")    
+print(train.travel_time)
+print(train.destination_history)
