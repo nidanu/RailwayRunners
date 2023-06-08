@@ -67,25 +67,53 @@ print(f"Train name: {train.train_name.station_name}")
 print()
 
 # Move train till time is up
-while train.travel_time < 120:
+n_routes = 1
+travel_times = []
+routes = []
+visited = [train.current_station.station_name]
+while n_routes <= 7:
+    while train.travel_time <= 120:
 
-    # Pick random next station from station connections
-    next_station_name = train.choose_next_station()
-    next_station_List = [station for station in stations if station.station_name == next_station_name]
-    next_station = next_station_List[0]
-    
-    #print(f"Next destination: {next_station.station_name}")
-    
-    # Update total travel time of train
-    train.update_travel_time(next_station)
-    #print(f"Total travel time: {train.travel_time}")
+        # Pick random next station from station connections
+        next_station_name = train.choose_next_station()
+        next_station_List = [station for station in stations if station.station_name == next_station_name]
+        next_station = next_station_List[0]
+        
+        #print(f"Next destination: {next_station.station_name}")
+        if (train.travel_time + train.current_station.connections[next_station.station_name]) > 120:
+            break
+        else:
+            # Update total travel time of train
+            train.update_travel_time(next_station)
+            #print(f"Total travel time: {train.travel_time}")
 
-    # Add next station to travel history and move towards it
-    train.add_destination_to_history(next_station)
-    #print()
+            # Add next station to travel history and move towards it
+            train.add_destination_to_history(next_station)
+            #print()
+            
+            if next_station.station_name not in visited:
+                visited.append(next_station.station_name)
+        
+    travel_times.append(train.travel_time)
+    routes.append(train.destination_history)
+    train.travel_time_zero()
+    train.empty_destination_history()
+    n_routes += 1
 
 # Print route
-for destinations in train.destination_history:
-    print(f"Visited station: {destinations}")
+print("=============================================")
+for i in range(len(routes)):
+    print(f"Route: {i + 1} ----------------")
+    for destinations in routes[i]:
+        print(f"{destinations}") #Visited station:
+    print(f"Total time route: {travel_times[i]}")
+
+print(f"\nTotal time: {sum(travel_times)}\n")
+
+print("Visited:")
+for been_there in visited:
+    print(been_there)
+print()
+print(f"Total visited stations: {len(visited)}")
 
      

@@ -22,3 +22,10 @@ class Train:
     def update_travel_time(self, next_station: Station) -> None:
         self.travel_time += self.current_station.connections[next_station.station_name]
         
+    def travel_time_zero(self) -> None:
+        self.travel_time = 0
+    
+    def empty_destination_history(self) -> None:
+        self.destination_history = [self.current_station.station_name]     
+        
+        
