@@ -1,5 +1,9 @@
-from typing import Dict
+#!/usr/bin/env python # 
+"""
+Configuration of a station class for all stations.
+"""
 
+from typing import Dict
 
 class Station:
     def __init__(self, station_name: str, y: float, x: float):
