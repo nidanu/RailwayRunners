@@ -7,6 +7,7 @@ import random
 
 from Classes.station import Station
 from Classes.train import Train
+from graph import *
 
 # Create list with all stations
 stations = []
@@ -121,4 +122,6 @@ for been_there in visited:
 print()
 print(f"Total visited stations: {len(visited)}")
 
+# Function from graph.py, creates network graph of the stations
+# mapping()
      
