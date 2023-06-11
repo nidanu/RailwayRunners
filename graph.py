@@ -6,10 +6,12 @@ The nodes are plotted using the coordinates of the stations as specified in
 the Station class.
 """
 import matplotlib.pyplot as plt
-from typing import Figure
+from typing import Any
 from Classes.station import *
 
-def mapping() -> Figure:
+def mapping() -> Any:
+    """ Plots network graph of stations and their connections. The weight of the edge signifies travel time.
+    When called opens graph automatically. """
     nodes = []
     edges = []
     for station in Station:
@@ -26,7 +28,7 @@ def mapping() -> Figure:
     ax.axis('off')
 
     # Draw nodes
-    for i in enumerate(nodes):
+    for i, node in enumerate(nodes):
         ax.scatter(nodes[i][1], nodes[i][2], marker='o', s=200, c='skyblue')
         ax.text(nodes[i][1], nodes[i][2], nodes[i][0], ha='center', va='center', fontsize=9, weight='bold')
 
