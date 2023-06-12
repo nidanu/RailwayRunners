@@ -1,6 +1,10 @@
-import random
-from station import Station
+#!/usr/bin/env python # 
+"""
+Configuration of a train class that travels between stations.
+"""
 
+import random
+from Classes.station import Station
 
 class Train:
     def __init__(self, start_station: Station) -> None:

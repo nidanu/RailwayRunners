@@ -1,19 +1,25 @@
+#!/usr/bin/env python # 
+"""
+Runs simulation of train travelling through network map of all connections.
+"""
+
 import random
 
-from station import Station
-from train import Train
+from Classes.station import Station
+from Classes.train import Train
+
 
 # Create list with all stations
 stations = []
 
 # Count number of stations
-with open("StationsHolland.csv", "r") as f:
+with open("./Cases/Holland/StationsHolland.csv", "r") as f:
     next(f)
     num_stations = len(f.readlines())
     #print(f"Number of stations: {num_stations}")
 
 # Count number of connections
-with open("ConnectiesHolland.csv", "r") as f:
+with open("./Cases/Holland/ConnectiesHolland.csv", "r") as f:
     next(f)   
     num_connections = len(f.readlines())
     #print(f"Number of connections: {num_connections}")
@@ -21,7 +27,7 @@ with open("ConnectiesHolland.csv", "r") as f:
 #print()    
 
 # Create list of Station objects
-with open("StationsHolland.csv", "r") as f:
+with open("./Cases/Holland/StationsHolland.csv", "r") as f:
     next(f)
 
     for i in range(num_stations):
@@ -37,7 +43,7 @@ with open("StationsHolland.csv", "r") as f:
         stations.append(new_station)
 
 # Load connections into Station objects
-with open("ConnectiesHolland.csv", "r") as f:
+with open("./Cases/Holland/ConnectiesHolland.csv", "r") as f:
     next(f)
     for i in range(num_connections):    
         connection_str = f.readline()
@@ -58,6 +64,7 @@ with open("ConnectiesHolland.csv", "r") as f:
     #for i in range(num_stations):
         #print(stations[i].station_name, end=": ")
         #print(stations[i].connections)
+
 
 # Ask for input
 print("Styles:\n- normal\n- single\n- max")
@@ -369,3 +376,5 @@ elif style.lower() == "normal":
     print(f"Runs: {total_runs}")
 else:
     print("Please give an existing style.\nStyles:\n- normal\n- single\n- max")
+    
+    

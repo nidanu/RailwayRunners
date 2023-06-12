@@ -1,47 +1,47 @@
 #!/usr/bin/env python # 
 """
-Visualises train stop & their connections
+Visualises train stop & their connections in a network map. 
+
+The nodes are plotted using the coordinates of the stations as specified in 
+the Station class.
 """
-
-import networkx as nx
 import matplotlib.pyplot as plt
+from typing import Any
+from Classes.station import *
 
-G = nx.Graph()
-# Load connections into Station objects
-with open("ConnectiesHolland.csv", "r") as f:
-    next(f)
-    for i in range(28):    
-        connection = f.readline()
-        connection = connection.split(",")
-        
-        station_1 = connection[0]
-        station_2 = connection[1]
-        traveltime = connection[2].split('\n')
-        traveltime = int(traveltime[0])
-        G.add_edge(station_1, station_2, weight=traveltime)
+def mapping() -> Any:
+    """ Plots network graph of stations and their connections. The weight of the edge signifies travel time.
+    When called opens graph automatically. """
+    nodes = []
+    edges = []
+    for station in Station:
+        keys = (list(station.connections.keys()))
+        nodes.append((station.station_name, station.x, station.y))
+        for key in keys:
+            edges.append((station.station_name, key, station.connections[key]))
 
-# Code from https://networkx.org/documentation/stable/auto_examples/drawing/plot_weighted_graph.html#sphx-glr-auto-examples-drawing-plot-weighted-graph-py       
+    # Create a new figure and axis
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
 
+    # Remove axis and tick marks
+    ax.axis('off')
 
-pos = nx.spring_layout(G, seed=7)  # positions for all nodes - seed for reproducibility
+    # Draw nodes
+    for i, node in enumerate(nodes):
+        ax.scatter(nodes[i][1], nodes[i][2], marker='o', s=200, c='skyblue')
+        ax.text(nodes[i][1], nodes[i][2], nodes[i][0], ha='center', va='center', fontsize=9, weight='bold')
 
-# nodes
-nx.draw_networkx_nodes(G, pos, node_size=100)
+    # Draw edges
+    for edge in edges:
+        start, end, weight = edge
+        start_node = next((n for n in nodes if n[0] == start), None)
+        end_node = next((n for n in nodes if n[0] == end), None)
+        mid_x = (start_node[1] + end_node[1]) / 2
+        mid_y = (start_node[2] + end_node[2]) / 2
+        if start_node and end_node:
+            ax.plot([start_node[1], end_node[1]], [start_node[2], end_node[2]], 'k-', linewidth=0.5)
+            ax.text(mid_x, mid_y, weight, ha='center', va='center')
 
-# edges
-nx.draw_networkx_edges(G, pos, width=2)
-nx.draw_networkx_edges(
-    G, pos, width=2, alpha=0.5, edge_color="black", style="solid"
-)
-
-# node labels
-nx.draw_networkx_labels(G, pos, font_size=10, font_family="sans-serif")
-# edge weight labels
-edge_labels = nx.get_edge_attributes(G, "weight")
-nx.draw_networkx_edge_labels(G, pos, edge_labels, font_size=7)
-
-ax = plt.gca()
-ax.margins(0.08)
-plt.axis("off")
-plt.tight_layout()
-plt.show()
+    # Display the graph
+    plt.show()
