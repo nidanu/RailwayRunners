@@ -5,9 +5,11 @@ Configuration of a station class for all stations.
 
 from typing import Dict, Type, Iterator
 
+
 class IterInstances(type):
     def __iter__(cls: Type['Station']) -> Iterator['Station']:
         return iter(cls._instances)
+
 
 class Station(metaclass=IterInstances):
     _instances = []

@@ -4,7 +4,9 @@ Configuration of a train class that travels between stations.
 """
 
 import random
+
 from Classes.station import Station
+
 
 class Train:
     def __init__(self, start_station: Station) -> None:
@@ -18,8 +20,7 @@ class Train:
         self.current_station = next_station  
        
     def choose_next_station(self) -> str:
-        destination_list = list(self.current_station.connections.keys())        
-        #print(f"Possible destinations: {destination_list}")        
+        destination_list = list(self.current_station.connections.keys())   
         next_station = (destination_list[random.randint(0, len(destination_list) - 1)])                 
         return next_station
     
@@ -31,5 +32,4 @@ class Train:
     
     def empty_destination_history(self) -> None:
         self.destination_history = [self.current_station.station_name]     
-        
-        
+                

@@ -6,8 +6,10 @@ The nodes are plotted using the coordinates of the stations as specified in
 the Station class.
 """
 import matplotlib.pyplot as plt
+
 from typing import Any
 from Classes.station import *
+
 
 def mapping() -> Any:
     """ Plots network graph of stations and their connections. The weight of the edge signifies travel time.
