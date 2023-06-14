@@ -35,7 +35,7 @@ The following list describes the most important folders and where to find them.
 
 ## Auteurs
 - Nidanu O'Shea
-- Sten Bakkers
+- Sten Bakker
 - Berend Peeters 
 
 ## 
