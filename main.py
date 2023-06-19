@@ -5,13 +5,14 @@ Runs simulation of train travelling through network map of all connections.
 
 import random
 
-from Classes.station import Station
+from Classes.station import create_list_of_stations, create_station_connections, Station
 from Classes.train import Train
 from typing import List
+from bridges import Graph  
 
-
-# Create list with all stations
-stations = []
+# Create list with all stations + connections
+stations = create_list_of_stations("./Cases/Holland/StationsHolland.csv")
+create_station_connections("./Cases/Holland/StationsHolland.csv", "./Cases/Holland/ConnectiesHolland.csv", stations) 
 
 # Count number of stations
 with open("./Cases/Holland/StationsHolland.csv", "r") as f:
@@ -21,44 +22,10 @@ with open("./Cases/Holland/StationsHolland.csv", "r") as f:
 # Count number of connections
 with open("./Cases/Holland/ConnectiesHolland.csv", "r") as f:
     next(f)   
-    num_connections = len(f.readlines())       
-
-# Create list of Station objects
-with open("./Cases/Holland/StationsHolland.csv", "r") as f:
-    next(f)
-
-    for i in range(num_stations):
-        station_info = f.readline().split(',')
-        station_info = station_info
-        station_name = station_info[0]
-        
-        station_y = float(station_info[1])
-        station_x_str = station_info[2].split('\n')
-        station_x = float(station_x_str[0]) 
-        
-        new_station = Station(station_name, station_y, station_x)
-        stations.append(new_station)
-
-# Load connections into Station objects
-with open("./Cases/Holland/ConnectiesHolland.csv", "r") as f:
-    next(f)
-    for i in range(num_connections):    
-        connection_str = f.readline()
-        connection = connection_str.split(",")
-        
-        station_1 = connection[0]
-        station_2 = connection[1]
-        traveltime_str = connection[2].split('\n')       
-        traveltime = int(float(traveltime_str[0]))
-
-        for i in range(num_stations):
-            if stations[i].station_name == station_1:
-                stations[i].add_connection(station_2, traveltime)
-            if stations[i].station_name == station_2:
-                stations[i].add_connection(station_1, traveltime)  
+    num_connections = len(f.readlines())   
 
 # Ask for test input
-print("Styles:\n- normal\n- single\n- max")
+print("Styles:\n- normal\n- single\n- max\n- 7")
 style = input("What style of test? ")
 print()
 
@@ -102,12 +69,12 @@ if style.lower() == "max":
                 while train.travel_time <= 120:
 
                     # Pick random next station from station connections
-                    next_station_name = train.choose_next_station()
-                    next_station_List = [station for station in stations if station.station_name == next_station_name]
+                    next_station_number = train.choose_next_station()
+                    next_station_List = [station for station in stations if station.station_number == next_station_number]
                     next_station = next_station_List[0]
 
                     # End route if travel_time > 120, else move to next station                    
-                    if (train.travel_time + train.current_station.connections[next_station.station_name]) > 120:
+                    if (train.travel_time + train.current_station.connections[next_station.station_number]) > 120:
                         break
                     else:
                         # Update total travel time of train
@@ -194,12 +161,12 @@ elif style.lower() == "single":
         while train.travel_time <= 120:
 
             # Pick random next station from station connections
-            next_station_name = train.choose_next_station()
-            next_station_List = [station for station in stations if station.station_name == next_station_name]
+            next_station_number = train.choose_next_station()
+            next_station_List = [station for station in stations if station.station_number == next_station_number]
             next_station = next_station_List[0]            
            
             # End route if travel_time > 120, else move to next station
-            if (train.travel_time + train.current_station.connections[next_station.station_name]) > 120:
+            if (train.travel_time + train.current_station.connections[next_station.station_number]) > 120:
                 break
             else:
                 # Update total travel time of train
@@ -290,12 +257,12 @@ elif style.lower() == "normal":
             while train.travel_time <= 120:
 
                 # Pick random next station from station connections
-                next_station_name = train.choose_next_station()
-                next_station_List = [station for station in stations if station.station_name == next_station_name]
+                next_station_number = train.choose_next_station()
+                next_station_List = [station for station in stations if station.station_number == next_station_number]
                 next_station = next_station_List[0]
 
                 # End route if travel_time > 120, else move to next station                
-                if (train.travel_time + train.current_station.connections[next_station.station_name]) > 120:
+                if (train.travel_time + train.current_station.connections[next_station.station_number]) > 120:
                     break
                 else:
                     # Update total travel time of train
@@ -370,7 +337,91 @@ elif style.lower() == "normal":
     print(f"Top Routes: {len(top_route)}")
     print(f"Max routes: {max_routes}")
     print(f"Runs: {total_runs}")
+
+elif style == "7":
+    # Create variables for score calculations
+    top_score = 0 
+    average_score = 0 
+    average_time = 0  
+
+    # Create network starting from each available station and calculate network score
+    for l in range(num_stations):  
+        # Create empty Graph and print starting station route              
+        g = Graph(num_stations, l) 
+        print(f" -" * 20)             
+        print(f"Starting station: {stations[g.starting_station].station_name} \n")
+
+        # Load all connections into Graph
+        with open("./Cases/Holland/ConnectiesHolland.csv", "r") as f:
+            next(f)       
+            for i in range(num_connections):
+                connection_str = f.readline()
+                connection = connection_str.split(",")
+        
+                station_1 = connection[0]
+                station_2 = connection[1]            
+            
+                for j in range(num_stations):
+                    if stations[j].station_name == station_1:
+                        save_station_1 = j                    
+                    if stations[j].station_name == station_2:
+                        save_station_2 = j
+                    
+                g.addEdge(save_station_1, save_station_2)
+                g.addEdge(save_station_2, save_station_1)
+
+        # Print calculated Graph, score and network total time    
+        g.printEulerTour()	
+        print()
+        print(f"Score: {g.final_score}")
+        print(f"Total time: {g.total_time}")   
+
+        # Add score and time to variables to calculate overall average
+        average_score += g.final_score
+        average_time += g.total_time
+        
+        # Compare all scores for highest result, and save station number of best station
+        if g.final_score > top_score:
+            top_score = g.final_score
+            top_station = l               
+
+    # Print best scoring starting station
+    print(f" -" * 20)  
+    g = Graph(num_stations, top_station)
+    print("Best schedule: ")
+    print(f"Top score: {top_score}")  
+    print()        
+
+    with open("./Cases/Holland/ConnectiesHolland.csv", "r") as f:
+        next(f)       
+        for i in range(num_connections):
+            connection_str = f.readline()
+            connection = connection_str.split(",")
+        
+            station_1 = connection[0]
+            station_2 = connection[1]            
+            
+            for j in range(num_stations):
+                if stations[j].station_name == station_1:
+                    save_station_1 = j                    
+                if stations[j].station_name == station_2:
+                    save_station_2 = j
+                    
+            g.addEdge(save_station_1, save_station_2)
+            g.addEdge(save_station_2, save_station_1)
+            
+    g.printEulerTour()	
+
+    # Calculate average results algorithm          
+    average_score = average_score / num_stations   
+    average_time = average_time / num_stations
     
+    # Print average results algorithm
+    print()
+    print(f" -" * 20) 
+    print(f"Average score: {round(average_score, 2)}")
+    print(f"Average time: {round(average_time, 2)}")
+
 else:
     print("Please give an existing style.\nStyles:\n- normal\n- single\n- max")
         
