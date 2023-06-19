@@ -5,10 +5,12 @@ Runs simulation of train travelling through network map of all connections.
 
 import random
 
-from Classes.station import create_list_of_stations, create_station_connections, Station
-from Classes.train import Train
-from typing import List
 from bridges import Graph  
+from Classes.station import Station
+from Classes.train import Train
+from functions import create_list_of_stations, create_station_connections
+from typing import List
+
 
 # Create list with all stations + connections
 stations = create_list_of_stations("./Cases/Holland/StationsHolland.csv")
@@ -371,14 +373,15 @@ elif style == "7":
                 g.addEdge(save_station_2, save_station_1)
 
         # Print calculated Graph, score and network total time    
+        
         g.printEulerTour()	
         print()
         print(f"Score: {g.final_score}")
-        print(f"Total time: {g.total_time}")   
+        print(f"Total time: {g.total_time_network}")   
 
         # Add score and time to variables to calculate overall average
         average_score += g.final_score
-        average_time += g.total_time
+        average_time += g.total_time_network
         
         # Compare all scores for highest result, and save station number of best station
         if g.final_score > top_score:

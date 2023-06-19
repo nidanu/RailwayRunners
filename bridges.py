@@ -1,8 +1,8 @@
 # A Python program to print Eulerian trail in a
 # given Eulerian or Semi-Eulerian Graph(vikramshirsath177) https://www.geeksforgeeks.org/paths-travel-nodes-using-edgeseven-bridges-konigsberg/
 from collections import defaultdict
-from Classes.station import create_list_of_stations, create_station_connections, Station
-
+from Classes.station import Station
+from functions import create_list_of_stations, create_station_connections 
 
 # Create list with all stations + connections
 stations = create_list_of_stations("./Cases/Holland/StationsHolland.csv")
@@ -25,11 +25,12 @@ class Graph:
         self.V = V
         self.adj = defaultdict(list)
 
-        self.done = False
-        self.head_count = 0
-        self.travel_time = 0
+        self.all_stations_visited = False
+        
+        self.travel_time_train = 0
         self.train_count = 1
-        self.total_time = 0
+        self.total_time_network = 0
+        
         self.starting_station = station_number
         self.stations_visited = []
 
@@ -59,33 +60,32 @@ class Graph:
         if stations[u].station_name not in self.stations_visited:
             self.stations_visited.append(stations[u].station_name)
             
-        if len(self.stations_visited) == num_stations and self.done == False:	
-            self.total_time += self.travel_time		
-            print(f"ROUTE {self.train_count}: {self.travel_time} minutes")
-            self.final_score = 10000 - ((self.train_count*100) + self.total_time)            
-            self.done = True
-            self.stations_visited = []
+        if len(self.stations_visited) == num_stations and self.all_stations_visited == False:	
+            self.total_time_network += self.travel_time_train		
+            print(f"ROUTE {self.train_count}: {self.travel_time_train} minutes")
+            self.final_score = 10000 - ((self.train_count*100) + self.total_time_network)            
+            self.all_stations_visited = True
+            self.stations_visited = []            
             		
         # Recur for all the vertices adjacent to this vertex
-        if len(self.stations_visited) < num_stations and self.done == False:
+        if len(self.stations_visited) < num_stations and self.all_stations_visited == False:
             for v in self.adj[u]:
                 
                 # If edge u-v is not removed and it's a valid next edge
                 if v != -1 and self.isValidNextEdge(u, v):                    
-                    if self.travel_time + stations[u].connections[v] > 120 and self.done == False:
-                        print(f"ROUTE {self.train_count}: {self.travel_time} minutes")
+                    if self.travel_time_train + stations[u].connections[v] > 120 and self.all_stations_visited == False:
+                        print(f"ROUTE {self.train_count}: {self.travel_time_train} minutes")
                         self.train_count += 1
-                        self.total_time += self.travel_time 
-                        self.travel_time = 0
+                        self.total_time_network += self.travel_time_train 
+                        self.travel_time_train = 0
 					 
                         print()
                         
-                    if self.done == False:
+                    if self.all_stations_visited == False:
                         print(stations[u].station_name, "-", stations[v].station_name)                    
                 
-                    self.travel_time += stations[u].connections[v]                			
-				
-                    self.head_count += 1
+                    self.travel_time_train += stations[u].connections[v]                			
+				                    
                     self.rmvEdge(u, v)
                     self.printEulerUtil(v)
 
