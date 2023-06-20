@@ -4,6 +4,8 @@ Runs simulation of train travelling through network map of all connections.
 """
 
 import random
+import sys 
+sys.path.append('..')
 
 from Algorithms.bridges import Graph  
 from Classes.station import Station
@@ -13,16 +15,16 @@ from typing import List
 
 
 # Create list with all stations + connections
-stations = create_list_of_stations("./Cases/Holland/StationsHolland.csv")
-create_station_connections("./Cases/Holland/StationsHolland.csv", "./Cases/Holland/ConnectiesHolland.csv", stations) 
+stations = create_list_of_stations("../Cases/Holland/StationsHolland.csv")
+create_station_connections("../Cases/Holland/StationsHolland.csv", "../Cases/Holland/ConnectiesHolland.csv", stations) 
 
 # Count number of stations
-with open("./Cases/Holland/StationsHolland.csv", "r") as f:
+with open("../Cases/Holland/StationsHolland.csv", "r") as f:
     next(f)
     num_stations = len(f.readlines())
     
 # Count number of connections
-with open("./Cases/Holland/ConnectiesHolland.csv", "r") as f:
+with open("../Cases/Holland/ConnectiesHolland.csv", "r") as f:
     next(f)   
     num_connections = len(f.readlines())   
 
