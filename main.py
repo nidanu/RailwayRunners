@@ -5,10 +5,10 @@ Runs simulation of train travelling through network map of all connections.
 
 import random
 
-from bridges import Graph  
+from Algorithms.bridges import Graph  
 from Classes.station import Station
 from Classes.train import Train
-from functions import create_list_of_stations, create_station_connections
+from Code.functions import create_list_of_stations, create_station_connections
 from typing import List
 
 

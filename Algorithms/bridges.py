@@ -2,7 +2,7 @@
 # given Eulerian or Semi-Eulerian Graph(vikramshirsath177) https://www.geeksforgeeks.org/paths-travel-nodes-using-edgeseven-bridges-konigsberg/
 from collections import defaultdict
 from Classes.station import Station
-from functions import create_list_of_stations, create_station_connections 
+from Code.functions import create_list_of_stations, create_station_connections 
 
 # Create list with all stations + connections
 stations = create_list_of_stations("./Cases/Holland/StationsHolland.csv")
