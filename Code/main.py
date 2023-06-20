@@ -356,7 +356,7 @@ elif style == "7":
         print(f"Starting station: {stations[g.starting_station].station_name} \n")
 
         # Load all connections into Graph
-        with open("./Cases/Holland/ConnectiesHolland.csv", "r") as f:
+        with open("../Cases/Holland/ConnectiesHolland.csv", "r") as f:
             next(f)       
             for i in range(num_connections):
                 connection_str = f.readline()
@@ -397,7 +397,7 @@ elif style == "7":
     print(f"Top score: {top_score}")  
     print()        
 
-    with open("./Cases/Holland/ConnectiesHolland.csv", "r") as f:
+    with open("../Cases/Holland/ConnectiesHolland.csv", "r") as f:
         next(f)       
         for i in range(num_connections):
             connection_str = f.readline()
