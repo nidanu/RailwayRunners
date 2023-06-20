@@ -5,17 +5,18 @@ Visualises train stop & their connections in a network map.
 The nodes are plotted using the coordinates of the stations as specified in 
 the Station class.
 """
-import sys
-
 import matplotlib.pyplot as plt
 from typing import Any
+from Visualisation.scatter import *
 
-sys.path.append("..")
-from Classes.station import *
+def network_map(Station: Type['Station']) -> Any:
+    """
+    Visualises train stop & their connections in a network map. 
 
-def mapping() -> Any:
-    """ Plots network graph of stations and their connections. The weight of the edge signifies travel time.
-    When called opens graph automatically. """
+    The nodes are plotted using the coordinates of the stations as specified in 
+    the Station class.
+    """
+
     nodes = []
     edges = []
     for station in Station:

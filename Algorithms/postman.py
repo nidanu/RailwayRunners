@@ -1,5 +1,5 @@
 """
-Algorithm for the Chinese Postman Problem. Makes use of Dijkstra's shortest
+Algorithm for the Route Inspection Problem/Postman Tour. Makes use of Dijkstra's shortest
 path algorithm.
 """
 import random
@@ -7,11 +7,10 @@ import copy
 import sys
 from dijkstra import *
 from typing import Tuple, Any, Dict
-sys.path.append("..")
 
 class Postman():
     """
-    Class to tackle the Chinese postman problem.
+    Class to tackle the Postman tour.
     """
     def __init__(self, vertices: list[str], graph: Dict) -> None:
         self.vertices: list[str] = vertices 
@@ -20,14 +19,11 @@ class Postman():
     def odd_vertices(self) -> list[str]:
         """
         Returns all the vertices with an odd degree of edges.
-
         By the Handshaking theorem, there are always an even number of odd vertices.
         """
         odd = []
         for vertex in self.vertices:
-
-            # If the number of connections is not even, vertex has odd degree
-            if len(list(self.graph[vertex])) % 2 != 0:
+            if len(list(self.graph[vertex])) % 2 != 0: # If the number of connections is not even, vertex has odd degree
                 odd.append(vertex)
 
         return odd
@@ -40,18 +36,13 @@ class Postman():
         index_start = random.randint(0, len(odd) - 1)
         start_vertex = odd[index_start]
 
-        # Removes vertex from list of odd vertices
-        del odd[index_start]
+        del odd[index_start] # Removes vertex from list of odd vertices
 
         index_end = random.randint(0, len(odd) - 1)
-        
         end_vertex = odd[index_end]
-
-        # Removes vertex from list of odd vertices
-        del odd[index_end]
+        del odd[index_end] # Removes vertex from list of odd vertices
 
         return start_vertex, end_vertex, odd
-
 
     def possible_pairs(odd: list[str]) -> list[list[Tuple[str, str]]]:
         """
@@ -80,10 +71,8 @@ class Postman():
         """
         paths: Dict[Dict[Tuple(str, int)]] = {}
 
-        # List is the list of [(a, b), (c, d), ...] pairs
-        for list in possible_pairs:
+        for list in possible_pairs: # List is the list of [(a, b), (c, d), ...] pairs
             for pair in list:
-                
                 # Weight of shortest path
                 distance, route = Dijkstra.get_results(self.vertices, self.graph, pair[0], pair[1])
                 paths[(pair[0], pair[1])] = (distance, route)
@@ -99,6 +88,7 @@ class Postman():
             minimum = min(weights)
             index_min = weights.index(minimum)
             start_v, end_v = pairs[index_min]
+
         return start_v, end_v
     
     def remove_stations(self, keys: list[str], start_v: str, end_v: str) -> list[str]:
@@ -109,6 +99,7 @@ class Postman():
         for tpl in keys:
             if tpl[0] != start_v and tpl[0] != end_v and tpl[1] != start_v and tpl[1] != end_v:
                 new_keys.append(tpl) 
+
         return new_keys
 
     def minimum_matching(self, paths: Dict) -> list[Tuple[str, str, int]]:
@@ -118,15 +109,12 @@ class Postman():
         
         NEEDS OPTIMISATION - What if not ideal combination of pairings (initially) selected?
         """
-        # List of all the start vertices
-        keys = list(paths.keys())  
+        keys = list(paths.keys())  # List of all the start vertices
         shortest_paths = []
 
         while keys:
             start = keys[0][0]
-
-            # List of all pairs with the same start_vertex
-            starters = [tpl for tpl in keys if tpl[0] == start] 
+            starters = [tpl for tpl in keys if tpl[0] == start] # List of all pairs with the same start_vertex
             weights = []
 
             # paths[(start, end)] = [list of vertex connections of form (distance, route), ...]
@@ -156,11 +144,8 @@ class Postman():
             start = path[0]
             end = path[1]
             edge = path[2]
-
-
             # If there is already a connection from the start to end vertex, a list of the routes is created
-            if end in list(modified_graph[start].keys()):
-                # graph[a]: {b: 3}, {c: 5}, ...
+            if end in list(modified_graph[start].keys()): # graph[a]: {b: 3}, {c: 5}, ...
                 original_distance = modified_graph[start][end]
                 mutliple_distances = []
                 mutliple_distances.append(original_distance)
@@ -171,20 +156,66 @@ class Postman():
 
         return modified_graph
     
-    def check_type(self, obj: Any) -> Any:
+    def check_type(self, obj: Any) -> bool:
         """
         Returns the type if the object is a list or an integer.
 
         Returns False otherwise.
         """
         if isinstance(obj, list):
-            return list
-        elif isinstance(obj, int):
-            return int
+            return True
         else:
             return False
+        
+    def check_bridge(self, graph: Dict, connection: str) -> bool:
+        """
+        Checks if a connection is a bridge, i.e., it will leave us stranded
+        """
+        if graph[connection].keys() == 1:
+            return True
+        else:
+            return False
+        
+    def get_non_bridges(self, graph: Dict, current_vertex: str, possible_connections: list[str]) -> list[str]:
+        """
+        Returns a list of all the connections that are not bridges, i.e., connections with only
+        one edge.
 
-    def walking(self, graph: Dict, current_vertex: str, stack: list[str], total_weight: int, circuit: list[str]) -> Tuple[Dict, str, list[str], int, list[str]]:
+        If only bridges exist, returns list of bridges.
+        """
+        non_bridges = []
+
+        for connection in possible_connections: # Checks if there are connections that are not bridges 
+            if self.check_bridge(graph, connection) is False:
+                non_bridges.append(connection)
+
+        if len(non_bridges) < 1: # If the only options are bridges
+            non_bridges = possible_connections
+            
+        return non_bridges
+        
+    def get_possible_edges(self, graph: Dict, current_vertex:str, non_bridges: list[str]) -> list[int]:
+        """
+        Returns list of weights of possible connections.
+        """
+        possible_edges = [] 
+
+        # Minimum edge is selected, and its weight is added to the sum of the circuit
+        # List of possible edges to traverse from current_vertex
+        for key in non_bridges:  
+            edge = graph[current_vertex][key]
+
+            # If there are multiple routes for the same pair, finds the minimum
+            if self.check_type(edge) is True: 
+                edge = [int(num) for num in edge]
+                connection = int(min(edge))
+            else:
+                connection = int(edge)
+            possible_edges.append(connection)
+        
+        return possible_edges
+
+    def walking(self, graph: Dict, current_vertex: str, stack: list[str], total_weight: int, circuit: list[str], trajectories) -> Tuple[Dict, str, list[str], int, list[str], list[list[str], int]]:
             """
             Function from step 2 of the algorithm. Returns the circuit of the 
             Euler path and the total weight of the circuit.
@@ -193,50 +224,37 @@ class Postman():
 
             # All possible connections from the current vertex
             possible_connections = list(graph[current_vertex].keys())
+            non_bridges = self.get_non_bridges(graph, current_vertex, possible_connections)
 
-            # Minimum edge is selected, and its weight is added to the sum of the circuit
-            # List of possible edges to traverse from current_vertex
-            possible_edges = [] 
-            for key in possible_connections:  
-                edge = graph[current_vertex][key]
+            # Get list of possible edges
+            possible_edges = self.get_possible_edges(graph, current_vertex, non_bridges)
+            #print(self.check_type(possible_edges)
+            
+            minimum = min(possible_edges) # If there are multiple connections, finds the minimum
+            min_index = possible_edges.index(minimum)
 
-                # If there are multiple routes for the same pair, finds the minimum
-                if self.check_type(edge) == list: 
-                    edge = [int(num) for num in edge]
-                    connection = int(min(edge))
-                else:
-                    connection = int(edge)
-                possible_edges.append(connection)
+            if (total_weight + int(minimum)) > 120:
+                route = []
+                for i in range(len(stack)):
+                    route.append(stack[i])
+                trajectories.append((route, total_weight))
+                total_weight = 0
                 
-            # If there are multiple connections, finds the minimum
-            if self.check_type(possible_edges) == list: 
-                minimum = min(possible_edges)
-                min_index = possible_edges.index(minimum)
-            elif self.check_type(possible_edges) == int:
-                minimum = possible_edges[0]
-                min_index = 0
-
-            # Adds to the total weight of the circuit
-            total_weight += int(minimum) 
-                
-            # Removes connection as it has been used
-            possible_edges.remove(minimum)
-
-            # Removes vertex from graph
-            del graph[current_vertex][possible_connections[min_index]]
+            total_weight += int(minimum)  # Adds to the total weight of the circuit
+            possible_edges.remove(minimum) # Removes connection as it has been used
+            del graph[current_vertex][possible_connections[min_index]] # Removes vertex from graph
 
             # Neighbouring vertex assigned as the new current vertex
             current_vertex = possible_connections[min_index]
-
             # If current vertex still has connections to its neighbour(s), process continues to run
             while len(graph[current_vertex]) > 0 and len(stack) > 0:
-                graph, current_vertex, stack, total_weight, circuit = self.walking(graph, current_vertex, stack, total_weight, circuit)
+                graph, current_vertex, stack, total_weight, circuit, trajectories = self.walking(graph, current_vertex, stack, total_weight, circuit, trajectories)
                 if len(graph[current_vertex]) == 0:
                     circuit.append(current_vertex)
                     current_vertex = stack.pop()
     
-            return graph, current_vertex, stack, total_weight, circuit
-    
+            return graph, current_vertex, stack, total_weight, circuit, trajectories
+        
     def euler_path(self, modified_graph: Dict, start_vertex: str) -> Tuple[list[str], int]:
         """
         Algorithm for finding a Euler path in a graph. Returns the circuit.
@@ -250,14 +268,13 @@ class Postman():
         3. Repeat step 2 until the current vertex has no more neighbors and the stack is empty.
         """
         stack = []
-        
-        # Weight of circuit
-        total_weight = 0 
+        total_weight = 0
         circuit = []
         current_vertex = start_vertex
-        graph, current_vertex, stack, total_weight, circuit = self.walking(modified_graph, current_vertex, stack, total_weight, circuit)
+        trajectories = []
+        modified_graph, current_vertex, stack, total_weight, circuit, trajectories = self.walking(modified_graph, current_vertex, stack, total_weight, circuit, trajectories)
 
-        return circuit, total_weight
+        return circuit, total_weight, trajectories
     
     def run_postman(vertices: list[str], graph: Dict) -> Tuple[list[str], int] :
         """"
@@ -267,26 +284,29 @@ class Postman():
         """
         postman = Postman(vertices, graph)
 
-        # Find odd vertices
-        odd = postman.odd_vertices()
-
+        odd = postman.odd_vertices()  # Find odd vertices
         selection = Postman.selection_start(odd)
         start_vertex = selection[0]
         remaining_odd = selection[2]
-        
-        # Possible pairs
-        possible_pairs = Postman.possible_pairs(remaining_odd)
-
-        # All the shortest paths of the possible pairs
-        shortest_pairs = postman.shortest_pair_path(possible_pairs)
-
-        # Finding minimum matching of shortest paths
-        matching = postman.minimum_matching(shortest_pairs)
-
-        # Add the matching to the original graph
-        modified_graph = postman.modify_graph(matching)
+    
+        possible_pairs = Postman.possible_pairs(remaining_odd) # Possible pairs
+        shortest_pairs = postman.shortest_pair_path(possible_pairs) # All the shortest paths of the possible pairs
+        matching = postman.minimum_matching(shortest_pairs) # Finding minimum matching of shortest paths
+        modified_graph = postman.modify_graph(matching) # Add the matching to the original graph
 
         # Find the euler path for the modified graph
-        route, weight = postman.euler_path(modified_graph, start_vertex)
+        circuit, total_weight, trajectories = postman.euler_path(modified_graph, start_vertex)
 
-        return route, weight
+        return circuit, total_weight, trajectories
+    
+    def calculate_score(circuit, total_weight, trajectories, total_connections):
+        """
+        Returns the score of the route.
+
+        K = the quality of the route, p = fraction of visited connections (between 0 and 1), T = number of trajectories, Min = total travel time
+        """
+        p = (len(trajectories) - 1) / total_connections
+        T = len(trajectories)
+        Min = total_weight
+        K = p*10000 - (T*100 + Min)
+        return K
