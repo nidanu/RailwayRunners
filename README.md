@@ -33,7 +33,7 @@ The following list describes the most important folders and where to find them.
 - **/Code**: Contains all code used in this project.
 - **/Classes**: Contains two classes used in this case
 
-## Auteurs
+## Authors
 - Nidanu O'Shea
 - Sten Bakker
 - Berend Peeters 
