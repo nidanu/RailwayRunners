@@ -66,4 +66,63 @@ def create_station_connections(filename_stations, filename_connections, stations
                     stations[i].add_connection(save_station_2, traveltime)
                 if stations[i].station_name == station_2:
                     stations[i].add_connection(save_station_1, traveltime)  
-   
+
+"""
+FUnctions for random algorithm  
+"""
+
+def determine_max_routes(num_stations):
+    if num_stations == 22:
+        return 7
+    elif num_stations == 61:
+        return 20
+    else:
+        return None 
+
+def check_progress(runs, total_runs, progress):
+    if runs % (total_runs // 10) == 0:
+        print(f"{progress}%")
+        progress += 10
+    return progress
+
+def get_next_station(train, stations):
+    next_station_number = train.choose_next_station()
+    next_station_List = [station for station in stations if station.station_number == next_station_number]
+    next_station = next_station_List[0]
+    return next_station
+
+def check_and_append_visited(next_station, visited):
+    if next_station.station_name not in visited:
+        visited.append(next_station.station_name)
+    return visited
+
+def check_and_append_driven(cur_station, next_station, temp_list_connections, driven):
+    one_way = [cur_station.station_name, next_station.station_name]
+    if one_way in temp_list_connections:
+        temp_list_connections.remove(one_way)
+        driven.append(one_way)
+    
+    other_way = [next_station.station_name, cur_station.station_name]
+    if other_way in temp_list_connections:
+        temp_list_connections.remove(other_way)
+        driven.append(other_way)
+    return driven
+
+def save(train, travel_times, routes):
+    travel_times.append(train.travel_time)
+    routes.append(train.destination_history)
+    return travel_times, routes
+
+def reset(train):
+    train.travel_time_zero()
+    train.empty_destination_history()
+    return train
+
+def calculate_score(list_connections, temp_list_connections, routes, travel_times):
+    n_connections_driven = len(list_connections) - len(temp_list_connections)
+    p = n_connections_driven / len(list_connections)
+    T = len(routes)
+    Min = sum(travel_times)
+    K = p * 10000 - (T * 100 + Min)
+    return K
+
