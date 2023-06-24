@@ -7,7 +7,6 @@ import random
 
 from Classes.station import Station
 
-
 class Train:
     def __init__(self, start_station: Station) -> None:
         self.train_name = start_station

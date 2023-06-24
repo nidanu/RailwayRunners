@@ -24,20 +24,30 @@ if __name__ == '__main__':
         graph[station.station_name] = station.connections
         vertices.append(station.station_name)
 
-    """circuit, total_weight, trajectories = Postman.run_postman(vertices, graph)
-    for trajector in trajectories:
+    """circuit, total_weight, trajectories = Postman.run_postman(vertices, graph, 120)
+    print(circuit, '\n')
+    print(trajectories)
+        for trajector in trajectories:
         print(len(trajectories))
         print(trajector, '\n\n')
     score = Postman.calculate_score(circuit, total_weight, trajectories, total_connections)
     print(score)"""
-    
-    scores = []
 
+    scores = []
+    max_time = 120
+    max_trajectories = 7
     for i in range(1000):
-        circuit, total_weight, trajectories = Postman.run_postman(vertices, graph)
-        if len(trajectories) <= 7:
-            scores.append(Postman.calculate_score(circuit, total_weight, trajectories, total_connections))
-    print(max(scores))
+        circuit, trajectories = Postman.run_postman(vertices, graph, max_time)
+        #print(len(trajectories), trajectories, '\n\n')
+        score = Postman.calculate_score(circuit, trajectories, total_connections)
+        if len(trajectories) <= max_trajectories:
+            scores.append(score)
+        """if score == 9309:
+            print(circuit, '\n\n')
+            print(trajectories)"""
+            
+            
+    
     #waarin K de kwaliteit van de lijnvoering is, p de fractie van de bereden verbindingen (dus tussen 0 en 1), 
     #T het aantal trajecten en Min het aantal minuten in alle trajecten samen.
     """
@@ -49,5 +59,10 @@ if __name__ == '__main__':
     #network_map(Station)
 
    # scatter_plot(results)
+ 
+    """load_two(filename_connections)
+    print(Connection)
+    for conn in Connection:
+        print(conn.weight)"""
 
 

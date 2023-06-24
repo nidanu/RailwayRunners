@@ -1,8 +1,8 @@
 import random
-
+import sys
+sys.path.append('..')
 from Classes.train import Train
-from Code.functions import create_list_of_stations, create_station_connections 
-
+from Code.load_info import create_list_of_stations, create_station_connections 
 
 def greedy():
     progress = 0

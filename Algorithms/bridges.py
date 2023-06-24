@@ -1,23 +1,23 @@
 # A Python program to print Eulerian trail in a
 # given Eulerian or Semi-Eulerian Graph(vikramshirsath177) https://www.geeksforgeeks.org/paths-travel-nodes-using-edgeseven-bridges-konigsberg/
+import sys 
 from collections import defaultdict
-from Classes.station import Station
-from Code.functions import create_list_of_stations, create_station_connections 
+sys.path.append('..')
+from Code.load_info import create_list_of_stations, create_station_connections 
 
 # Create list with all stations + connections
-stations = create_list_of_stations("../Cases/Holland/StationsHolland.csv")
-create_station_connections("../Cases/Holland/StationsHolland.csv", "../Cases/Holland/ConnectiesHolland.csv", stations)
+stations, num_stations = create_list_of_stations("../Cases/Holland/StationsHolland.csv")
+#num_connections = create_station_connections("../Cases/Holland/StationsHolland.csv", "../Cases/Holland/ConnectiesHolland.csv", stations)
 
 # Count number of stations
 with open("../Cases/Holland/StationsHolland.csv", "r") as f:
     next(f)
     num_stations = len(f.readlines())  
-
+"""
 # Count number of connections
-    with open("../Cases/Holland/ConnectiesHolland.csv", "r") as f:
-        next(f)       
-        num_connections = len(f.readlines())     
-
+with open("../Cases/Holland/ConnectiesHolland.csv", "r") as f:
+    next(f)       
+    num_connections = len(f.readlines())     """
 
 class Graph:	
     # Constructor and destructor
@@ -51,12 +51,12 @@ class Graph:
             if len(self.adj[i]) % 2 == 1:
                 u = i
                 break
-		
+        
             # Print tour starting from oddv
             self.printEulerUtil(u)            
-		
+        
     def printEulerUtil(self, u):		
-		
+        
         if stations[u].station_name not in self.stations_visited:
             self.stations_visited.append(stations[u].station_name)
             
@@ -66,7 +66,7 @@ class Graph:
             self.final_score = 10000 - ((self.train_count*100) + self.total_time_network)            
             self.all_stations_visited = True
             self.stations_visited = []            
-            		
+                    
         # Recur for all the vertices adjacent to this vertex
         if len(self.stations_visited) < num_stations and self.all_stations_visited == False:
             for v in self.adj[u]:
@@ -78,14 +78,14 @@ class Graph:
                         self.train_count += 1
                         self.total_time_network += self.travel_time_train 
                         self.travel_time_train = 0
-					 
+                    
                         print()
                         
                     if self.all_stations_visited == False:
                         print(stations[u].station_name, "-", stations[v].station_name)                    
                 
                     self.travel_time_train += stations[u].connections[v]                			
-				                    
+                                    
                     self.rmvEdge(u, v)
                     self.printEulerUtil(v)
 
@@ -125,7 +125,7 @@ class Graph:
 
     def DFSCount(self, v, visited):
         # Mark the current node as visited
-		
+        
         visited[v] = True
         count = 1
         # Recur for all the vertices adjacent to this vertex
@@ -133,4 +133,4 @@ class Graph:
             if not visited[i]:
                 count += self.DFSCount(i, visited)
         return count  
-	
+    
