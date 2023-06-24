@@ -48,181 +48,27 @@ style = input("What style of test? ")
 
 # Contains all styles of tests 
 if style.lower() == "max":
-
-    # Set variables for big loop
-    runs = 1
-    scores_and_routes = [] 
-    progress = 0
+    # find in main save
+    pass
     
-    if num_stations == 22:
-        max_routes = 4
-    elif num_stations == 61:
-        max_routes = 9
-        
-    total_runs = int(input("How many runs? "))
-
-    start_time = time.time() # ----------------------------------------------
-
-    # Runs question under restrictions n times until completion
-    while runs <= total_runs:        
-
-        # Progress printer 
-        if runs == 1 or (runs % (total_runs/10) == 0):
-            print(f"{progress}%")
-            progress += 10
-        
-        driven = []
-        visited: List[str] = []
-        temp_list_connections = list(list_connections)
-        
-        # End if all stations are visited, else create new route 
-        while len(temp_list_connections) != 0:
-
-            # Create Train object with random start station
-            train = Train((stations[random.randint(0, len(stations) - 1)]))
-            
-            # Set loop variables
-            n_routes = 1
-            travel_times = []
-            routes = []
-            cur_station = train.current_station
-            visited = [cur_station.station_name]
-            temp_list_connections = list(list_connections)
-            
-            # Move train until max routes 
-            while n_routes <= max_routes:
-
-                # Move train till time is up
-                while train.travel_time <= 120:
-
-                    # Pick random next station from station connections
-                    next_station_number = train.choose_next_station()
-                    next_station_List = [station for station in stations if station.station_number == next_station_number]
-                    next_station = next_station_List[0]
-
-                    # End route if travel_time > 120, else move to next station                    
-                    if (train.travel_time + train.current_station.connections[next_station.station_number]) > 120:
-                        break
-                    else:
-                        # Update total travel time of train
-                        train.update_travel_time(next_station)                       
-
-                        # Add next station to travel history and move towards it
-                        train.add_destination_to_history(next_station)                        
-                        
-                        # adds station to visited if aplicable 
-                        if next_station.station_name not in visited:
-                            visited.append(next_station.station_name)
-
-                        #-------------------------------------------------------------------------------------------------------------
-                        one_way = [cur_station.station_name, next_station.station_name]
-                        if one_way in temp_list_connections:
-                            temp_list_connections.remove(one_way)
-                            driven.append(one_way)
-                        other_way = [next_station.station_name, cur_station.station_name]
-                        if other_way in temp_list_connections:
-                            temp_list_connections.remove(other_way)
-                            driven.append(other_way)
-                    cur_station = next_station
-                new_start_station_number = train.choose_next_station()
-                new_start_station_List = [station for station in stations if station.station_number == new_start_station_number]
-                train.current_station = new_start_station_List[0]            
-                #if len(driven) == 0: -----------------------------------------------------------------------------------
-                
-                if runs in range(2000):
-                    print(len(temp_list_connections))
-                    x += 1
-
-                # Save and reset
-                travel_times.append(train.travel_time)
-                routes.append(train.destination_history)
-                train.travel_time_zero()
-                train.empty_destination_history()
-                n_routes += 1
-        
-        # Calculate and store scores
-        n_connections_driven = len(list_connections) - len(temp_list_connections)
-        p = n_connections_driven/len(list_connections)
-        T = max_routes
-        Min = sum(travel_times)
-        K = p*10000 - (T*100 + Min)
-        scores_and_routes.append([K, routes, travel_times]) 
-        
-        runs += 1
-    
-    end_time = time.time() 
-    duration = end_time - start_time
-    print(duration)
-
-    # Sorts and separates output
-    scores_and_routes.sort(key=lambda x: x[0])
-    scores = [] 
-    for score_and_route in scores_and_routes:
-        scores.append(score_and_route[0])
-
-    # Print max rout with travel time
-    top_route = scores_and_routes[-1][1]
-    top_travel_time = scores_and_routes[-1][2]
-    top_travel_times = []
-    
-    print()
-    print(" =" * 40)
-    print()
-
-    for i in range(len(top_route)):
-        print(f"Route: {i + 1}" + " -" * 20)
-        for destinations in top_route[i]:
-            print(f"{destinations}")  # Visited station:
-        print(f"Total time route: {top_travel_time[i]}\n")
-        top_travel_times.append(top_travel_time[i])
-
-    # Prints top scores
-    top_scores = scores[-3:]
-    print("Top scores:")
-    for top_score in top_scores:
-        print(top_score)
-    print()
-
-    # Prints low scores 
-    low_scores = scores[:3]
-    print("Low scores:")
-    for low_score in low_scores:
-        print(low_score)
-    print()
-
-    # Prints avarage and max scores
-    avg_score = sum(scores)/len(scores)
-    top_score = max(scores)
-    print(f"Avg score: {avg_score}")
-    print(f"Top score: {top_score}")
-    print(f"Top time: {sum(top_travel_times)}")
-    print(f"Routes: {max_routes}")
-    print(f"Runs: {total_runs}")
-
 
 elif style.lower() == "single":
     # Create Train object with random start station
     train = Train((stations[random.randint(0, len(stations) - 1)]))    
 
-    # Move train till all stations are visited or out of routes or route travel_time >= 120
-    n_routes = 1
-    
-    if num_stations == 22:
-        max_routes = 7
-    elif num_stations == 61:
-        max_routes = 20
-    
-    travel_times = []
-    routes = []
-    driven = [] # -------------------------------------------------------------------------------------
-    visited = [train.current_station.station_name]
-        
-    # ------------------------------------------------------------------------------------------------
+    # Set starting variables 
+    max_routes = determine_max_routes(num_stations)
     temp_list_connections = list(list_connections)
+    visited = [train.current_station.station_name]
     cur_station = train.current_station
+    travel_times = []
+    n_routes = 1
+    routes = []
+    driven = [] 
+            
+    start_time = time.time() 
     
-    start_time = time.time() # ----------------------------------------------
-    
+    # Move train till all stations are visited or out of routes or route travel_time >= 120
     while n_routes <= max_routes and len(list_connections) != 0: # -------------------------------------
         while train.travel_time <= 120:
 
@@ -337,13 +183,13 @@ elif style.lower() == "single":
 # Runs random for x amount of times    
 elif style.lower() == "normal":
     # Set variables for big loop
-    max_routes = determine_max_routes(num_stations) # ----------------------------------------------
+    max_routes = determine_max_routes(num_stations) 
     total_runs = int(input("How many runs? "))
     scores_and_routes = [] 
     progress = 0
     runs = 0
     
-    start_time = time.time() # ----------------------------------------------
+    start_time = time.time()
     
     while runs <= total_runs:
         
@@ -398,115 +244,23 @@ elif style.lower() == "normal":
             
         runs += 1
     
-    # ----------------------------------------------------------------------------------------------------
     end_time = time.time() 
     duration = end_time - start_time
     
-    # Sorts and separates output
-    scores_and_routes.sort(key=lambda x: x[0])
-    scores = [] 
-    for score_and_route in scores_and_routes:
-        scores.append(score_and_route[0])
+    # Filters data from scores_and_routes
+    scores, top_route, top_travel_time, top_travel_times = process_scores_and_routes(scores_and_routes)
+    
+    # Prints results 
+    top_travel_times = print_fastest_journey(top_route, top_travel_time)
+    print_connections(scores_and_routes)
+    print_scores(scores)
+    print_stats(min_time, top_travel_times, max_routes, top_route, num_connections, scores_and_routes, num_stations)
+    print_scores_stats(num_stations, min_time, scores)
+    print_program_stats(total_runs, duration)
+    
+    # Does statistics
+    run_tests_and_draw_histogram(scores)   
 
-    # Print max route with travel time
-    top_route = scores_and_routes[-1][1]
-    top_travel_time = scores_and_routes[-1][2]
-    top_travel_times = []
-    
-    print(" =" * 40)
-    print("Fastest journey:")
-    print(f"Starting station: {top_route[0][0]}")
-    print()
-
-    for i in range(len(top_route)):
-        print(f"Route: {i + 1}" + " -" * 20)
-        for destinations in top_route[i]:
-            print(f"{destinations}")  # Visited station:
-        print(f"Total time route: {top_travel_time[i]}\n")
-        top_travel_times.append(top_travel_time[i])
-
-    # Prints top scores
-    top_scores = scores[-5:]
-    print("Top scores:")
-    for top_score in top_scores:
-        print(top_score)
-    print()
-
-    # Prints low scores 
-    low_scores = scores[:5]
-    print("Low scores:")
-    for low_score in low_scores:
-        print(low_score)
-    print()
-    
-    # Prints the driven connections
-    print("Driven:")
-    for connection in scores_and_routes[-1][3]:
-        print(f"{connection[0]} <-> {connection[1]}")
-    print()        
-    
-    # Prints not driven connections
-    print("Not driven:")
-    for connection in scores_and_routes[-1][5]:
-        print(f"{connection[0]} <-> {connection[1]}")
-    print()    
-
-    # Prints avarage and max scores
-    print(f"Min time: {min_time}")
-    print(f"Top time: {sum(top_travel_times)}")
-    print(f"Max routes: {max_routes}")
-    print(f"Top Routes: {len(top_route)}")
-    print(f"Max driven: {num_connections}")
-    print(f"Top driven: {len(scores_and_routes[-1][3])}")
-    print(f"Max visited: {num_stations}")
-    print(f"Top visited: {len(scores_and_routes[-1][4])}")
-    print()
-    
-    # Print top and avg score
-    if num_stations == 22:
-        print(f"Max score: {10000 - ((min_time // (2*60) + 1)*100 + min_time)}")
-    if num_stations == 61:
-        print(f"Max score: {10000 - ((min_time // (3*60) + 1)*100 + min_time)}")
-    top_score = max(scores)
-    print(f"Top score: {top_score}")
-    avg_score = sum(scores)/len(scores)
-    print(f"Avg score: {avg_score}")
-    print()
-    
-    # Program statistics 
-    print(f"Runs: {total_runs}")
-    print("Program duration:", duration, "seconds")
-    print()
-    
-    
-    """
-    Tests
-    """
-    # ===================================================
-    from scipy import stats
-    import numpy as np
-
-    # Shapiro-Wilk Test
-    shapiro_test = stats.shapiro(scores)
-    print("Shapiro-Wilk Test:")
-    print(f"Statistic: {shapiro_test.statistic}")
-    print(f"P-value: {shapiro_test.pvalue}")
-    
-    import matplotlib.pyplot as plt
-
-    def draw_histogram(data, bins):
-        plt.hist(data, bins=bins, edgecolor='black')
-        plt.xlabel("Scores")
-        plt.ylabel("Frequency")
-        plt.title("Random Algoritme 100.000 runs")
-        plt.savefig("hist_test.png")
-        plt.close()
-
-    # Example usage
-    my_data = scores
-    num_bins = 16
-    draw_histogram(my_data, num_bins)
-    
 elif style == "heur":
     # Set variables for big loop
     scores_and_routes = [] 
@@ -515,7 +269,7 @@ elif style == "heur":
     runs = 0
     
     if num_stations == 22:
-        max_routes = 4
+        max_routes = 7
     elif num_stations == 61:
         max_routes = 20
     
