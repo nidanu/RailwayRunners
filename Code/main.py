@@ -9,6 +9,7 @@ import sys
 sys.path.append('..')
 
 from Algorithms.bridges import Graph  
+from Algorithms.greedy import greedy 
 from Classes.station import Station
 from Classes.train import Train
 from Code.functions import *
@@ -42,7 +43,7 @@ with open("../Cases/Holland/ConnectiesHolland.csv", "r") as f:
     min_time = sum(list_connection_lengths)
 
 # Ask for test input
-print("Styles:\n- normal\n- single\n- max\n- heur\n- 7")
+print("Styles:\n- normal\n- single\n- max\n- heur\n- greedy\n- 7")
 style = input("What style of test? ")
 
 # Contains all styles of tests 
@@ -789,6 +790,10 @@ elif style == "7":
     print(f" -" * 20) 
     print(f"Average score: {round(average_score, 2)}")
     print(f"Average time: {round(average_time, 2)}")
+
+elif style == "greedy":
+    greedy()
+
 
 else:
     print("Please give an existing style.\nStyles:\n- normal\n- single\n- max")
