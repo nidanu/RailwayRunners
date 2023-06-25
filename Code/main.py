@@ -6,6 +6,7 @@ Runs simulation of train travelling through network map of all connections.
 import sys 
 sys.path.append('..')
 from Algorithms.bridges import Graph  
+from Algorithms.random_dijkstra import *
 from Algorithms.greedy import greedy
 from Algorithms.seven import seven_bridges 
 from Algorithms.postman import *
@@ -41,7 +42,7 @@ with open(file_connections, "r") as f:
     min_time = sum(list_connection_lengths)
 
 # Ask for test input
-print("Styles:\n- normal\n- single\n- max\n- heur\n- greedy\n- 7\n- postman")
+print("Styles:\n- normal\n- single\n- max\n- heur\n- greedy\n- 7\n- postman\n- random dijkstra")
 style = input("What style of test? ")
 stations, num_stations = create_list_of_stations(file_stations)
 num_connections = create_station_connections(file_stations, file_connections, stations) 
@@ -72,6 +73,14 @@ elif style == "postman":
     if int(runs) > 0:
         stations, Station_Postman = postman_station(file_stations, file_connections)
         Postman.postman_algorithm(max_time, max_trajectories, int(runs))
+    else:
+        print("Enter valid input.")
+
+elif style == "random dijkstra":
+    runs = input("How many runs? Enter an integer. ")
+    if int(runs) > 0:
+        maximum, minimum, average = Quick_dijkstra.random_dijkstra(int(runs), max_time)
+        print(f"The maximum score for {runs} runs is {maximum}, the minimum is {minimum}, and the mean is {average}.")
     else:
         print("Enter valid input.")
 

@@ -11,6 +11,7 @@ class Station_Postman(Station):
         self._instances.append(self)
         self.station_name = station_name
         self.connections: Dict[str, int] = {}
+        self.visited = False
     
     def get_connections(self) -> list[str]:
         return list(self.connections.keys())

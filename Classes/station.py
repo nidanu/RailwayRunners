@@ -3,14 +3,14 @@
 Configuration of a station class for all stations.
 """
 
-from typing import Dict, List, Type, Iterator
+from typing import Dict, List, Type, Iterator, Any
 
 class IterInstances(type):
     def __iter__(cls: Type['Station']) -> Iterator['Station']:
         return iter(cls._instances)
 
 class Station(metaclass=IterInstances):
-    _instances = []
+    _instances: List[Any] = []
 
     def __init__(self, station_number: int, station_name: str, y: float, x: float):
         self._instances.append(self)
