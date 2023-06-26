@@ -6,7 +6,7 @@ Configuration of a station class for all stations.
 from typing import Dict, List, Type, Iterator, Any
 
 class IterInstances(type):
-    def __iter__(cls: Type['Station']) -> Iterator['Station']:
+    def __iter__(self,cls: Type['Station']) -> Iterator['Station']:
         return iter(cls._instances)
 
 class Station(metaclass=IterInstances):
@@ -22,7 +22,7 @@ class Station(metaclass=IterInstances):
         self.x = x
 
     def add_connection(self, station: str, travel_time: int) -> None:
-        self.connections[station] = travel_time
+        self.connections[str(station)] = int(travel_time)
 
     def check_connection(self, station: str) -> bool:
         if station in self.connections.keys():

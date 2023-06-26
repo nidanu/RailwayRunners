@@ -5,14 +5,14 @@ Loads info from .csv file into Station classes.
 import sys
 sys.path.append("..")
 from Classes.station import Station
-from Classes.station_postman import *
+from Classes.station_postman import Station_Postman
 from Classes.train import Train
 from Classes.station import Station
-from typing import List, Tuple
+from typing import List, Tuple, Type
 from typing import NamedTuple
-from functions import *
+#from functions import 
 
-def create_list_of_stations(station_file) -> List:    
+def create_list_of_stations(station_file: str) -> Tuple[List[Station], int]:    
 
     # Create list for all stations
     stations = []       
@@ -40,7 +40,7 @@ def create_list_of_stations(station_file) -> List:
 
     return stations, num_stations       
 
-def postman_station(station_file, connection_file):
+def postman_station(station_file: str, connection_file: str) -> Tuple[List[Station_Postman], Type[Station_Postman]]:
     # Create list for all stations
     stations = []       
   
@@ -85,13 +85,13 @@ def postman_station(station_file, connection_file):
 
             for i in range(num_stations):
                 if stations[i].station_name == station_1:
-                    stations[i].add_connection(station_2, traveltime)
+                    stations[i].add_connection(station_2, int(traveltime))
                 if stations[i].station_name == station_2:
-                    stations[i].add_connection(station_1, traveltime)  
+                    stations[i].add_connection(station_1, int(traveltime))
     
     return stations, Station_Postman
 
-def create_station_connections(station_file, connection_file, stations: List[Station]) -> None:
+def create_station_connections(station_file: str, connection_file: str, stations: List[Station]) -> int:
     # Count number of stations    
     with open(station_file, "r") as f:
         next(f)
@@ -123,8 +123,8 @@ def create_station_connections(station_file, connection_file, stations: List[Sta
 
             for i in range(num_stations):
                 if stations[i].station_name == station_1:
-                    stations[i].add_connection(save_station_2, traveltime)
+                    stations[i].add_connection(str(save_station_2), int(traveltime))
                 if stations[i].station_name == station_2:
-                    stations[i].add_connection(save_station_1, traveltime)  
+                    stations[i].add_connection(str(save_station_1), int(traveltime))  
     
     return num_connections

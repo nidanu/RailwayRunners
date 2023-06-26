@@ -1,13 +1,18 @@
 import random
 import sys
 sys.path.append('..')
+
+from Classes.station import Station
 from Classes.train import Train
 from Code.load_info import create_list_of_stations, create_station_connections 
 
-def greedy(num_stations, num_connections, stations, list_connections, min_time, max_time, max_trajectories):
+from typing import List
+
+
+def greedy(num_stations: int, num_connections: int, stations: List[Station], list_connections: List[List[int]], min_time: int, max_time: int, max_trajectories: int) -> None:
     progress = 0
-    sum_scores = 0
-    top_score = 0  
+    sum_scores = 0.0
+    top_score = 0.0  
         
     list_connections_copy = list_connections
 
@@ -53,7 +58,7 @@ def greedy(num_stations, num_connections, stations, list_connections, min_time, 
             network.append(" -" * 20)           
             
             # Add destinations to Train object while travel time is below 120 minutes
-            while train.travel_time < 120:
+            while train.travel_time < max_time:
 
                 # Create list of stations sorted by distance from current station
                 station_connections = stations[current_station_number].connections    
@@ -61,30 +66,30 @@ def greedy(num_stations, num_connections, stations, list_connections, min_time, 
                 num_station_connections = len(sorted_station_connections)
                 
                 # Select next station that has not been visited yet by train, closest in range
-                for i in range(num_station_connections):                
-                    if stations[sorted_station_connections[0][0]].station_name in train.destination_history:
+                for i in range(num_station_connections):                      
+                    if str(stations[int(sorted_station_connections[0][0])].station_name) in (train.destination_history):
                         sorted_station_connections.pop(0)           
                     else:            
-                        closest_connection = stations[sorted_station_connections[0][0]].station_number           
+                        closest_connection = stations[int(sorted_station_connections[0][0])].station_number           
                         break    
                     if len(sorted_station_connections) == 0:                
                         break              
                 
-                # End route if train reaches dead end
-                if closest_connection not in train.current_station.connections:       
+                # End route if train reaches dead end                
+                if str(closest_connection) not in train.current_station.connections:       
                     break
                 
                 # End route if travel_time goes above 120/360 minutes with next destination, else move to next station                    
-                if (train.travel_time + train.current_station.connections[closest_connection]) > max_time:      
+                if (train.travel_time + train.current_station.connections[str(closest_connection)]) > max_time:      
                     break
                 else:                    
                     for i in range(len(list_connections)):               
                         # Delete visited connection from list of connections
-                        if list_connections[i][0] == current_station.station_name and list_connections[i][1] == stations[closest_connection].station_name:
+                        if str(list_connections[i][0]) == current_station.station_name and str(list_connections[i][1]) == stations[closest_connection].station_name:
                             current_connection = i                    
                             list_connections.pop(current_connection)
                             break
-                        elif list_connections[i][0] == stations[closest_connection].station_name and list_connections[i][1] == current_station.station_name:
+                        elif str(list_connections[i][0]) == stations[closest_connection].station_name and str(list_connections[i][1]) == current_station.station_name:
                             current_connection = i                   
                             list_connections.pop(current_connection)
                             break
@@ -93,8 +98,8 @@ def greedy(num_stations, num_connections, stations, list_connections, min_time, 
                     train.update_travel_time(stations[closest_connection])                            
 
                     # Add next station to travel history and move towards it
-                    train.add_destination_to_history(stations[closest_connection])      
-
+                    train.add_destination_to_history((stations[closest_connection]))      
+                    
                     # Update current station                    
                     for i in range(len(list_station_numbers) - 1):               
                         if list_station_numbers[i] == current_station_number and len(list_station_numbers) > 0:

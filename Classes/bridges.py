@@ -78,7 +78,7 @@ class Graph:
             for v in self.adj[u]:                
                 # If edge u-v is not removed and it's a valid next edge
                 if v != -1 and self.isValidNextEdge(u, v):                                      
-                    if self.travel_time_train + self.stations[u].connections[v] > self.max_time and self.all_stations_visited == False:
+                    if self.travel_time_train + self.stations[int(u)].connections[str(v)] > self.max_time and self.all_stations_visited == False:
                         print(f"ROUTE {self.train_count}: {self.travel_time_train} minutes")
                         self.train_count += 1
                         self.total_time_network += self.travel_time_train 
@@ -100,7 +100,7 @@ class Graph:
                                 self.list_connections.pop(current_connection)
                                 break              
                 
-                    self.travel_time_train += self.stations[u].connections[v]                			
+                    self.travel_time_train += self.stations[int(u)].connections[str(v)]                			
                                     
                     self.rmvEdge(u, v)
                     self.printEulerUtil(v)
