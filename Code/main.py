@@ -6,13 +6,12 @@ Runs simulation of train travelling through network map of all connections.
 import sys 
 sys.path.append('..')
 from Classes.bridges import Graph  
-from Algorithms.random_dijkstra import *
+#from Algorithms.random_dijkstra import *
 from Algorithms.greedy import greedy
 from Algorithms.seven import seven_bridges 
-from Algorithms.postman import *
-from Algorithms.heur import heur
+#from Algorithms.postman import *
+from Algorithms.max import max
 from Algorithms.normal import normal
-from Algorithms.single import single
 from Code.functions import *
 from load_info import *
 
@@ -42,7 +41,7 @@ with open(file_connections, "r") as f:
     min_time = sum(list_connection_lengths)
 
 # Ask for test input
-print("Styles:\n- normal\n- single\n- max\n- heur\n- greedy\n- 7\n- postman\n- random dijkstra")
+print("Styles:\n- normal\n- max\n- greedy\n- 7\n- postman\n- random dijkstra")
 style = input("What style of test? ")
 stations, num_stations = create_list_of_stations(file_stations)
 num_connections = create_station_connections(file_stations, file_connections, stations) 
@@ -50,17 +49,11 @@ num_connections = create_station_connections(file_stations, file_connections, st
 # Contains all styles of tests 
 if style.lower() == "max":
     # find in main save
-    pass
-
-elif style.lower() == "single":
-    single.single(num_stations, num_connections, stations, list_connections, min_time)
+    max(num_stations, num_connections, stations, list_connections, min_time)
 
 # Runs random for x amount of times    
 elif style.lower() == "normal":
     normal(num_stations, num_connections, stations, list_connections, min_time)
-
-elif style == "heur":
-    heur(num_stations, num_connections, stations, list_connections, min_time)
     
 elif style == "7":
     seven_bridges(num_stations, num_connections, stations, list_connections, min_time, file_connections, max_time)

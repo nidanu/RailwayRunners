@@ -1,10 +1,11 @@
 from Classes.station import Station
-from Classes.station_postman import *
+#from Classes.station_postman import *
 from Classes.train import Train
 from Classes.station import Station
 import matplotlib.pyplot as plt
 #from scipy import stats
 from typing import List, Tuple, NamedTuple
+
 
 """
 Functions for random algorithm  
@@ -17,6 +18,15 @@ def determine_max_routes(num_stations: int) -> int:
         return 20
     else:
         return None 
+
+def determin_min_routes(num_stations: int) -> int:
+    if num_stations == 22:
+        return 5
+    elif num_stations == 61:
+        return 20
+    else:
+        return None 
+
 
 def check_progress(runs, total_runs: int, progress: int) -> int:
     if runs % (total_runs // 10) == 0:

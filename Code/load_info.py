@@ -5,7 +5,7 @@ Loads info from .csv file into Station classes.
 import sys
 sys.path.append("..")
 from Classes.station import Station
-from Classes.station_postman import *
+#from Classes.station_postman import *
 from Classes.train import Train
 from Classes.station import Station
 from typing import List, Tuple
