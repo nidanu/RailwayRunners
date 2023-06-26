@@ -4,44 +4,23 @@ sys.path.append('..')
 from Classes.train import Train
 from Code.load_info import create_list_of_stations, create_station_connections 
 
-def greedy():
+def greedy(num_stations, num_connections, stations, list_connections, min_time, max_time, max_trajectories):
     progress = 0
     sum_scores = 0
-    top_score = 0
-     
+    top_score = 0  
+        
+    list_connections_copy = list_connections
+
     num_runs = int(input("How many runs? "))
    
     for i in range(num_runs):
         # Progress printer 
         if i == 1 or (i % (num_runs/10) == 0):
             print(f"{progress}%")
-            progress += 10        
-        
-        # Create list with all stations + connections
-        stations = create_list_of_stations("../Cases/Holland/StationsHolland.csv")
-        create_station_connections("../Cases/Holland/StationsHolland.csv", "../Cases/Holland/ConnectiesHolland.csv", stations)
+            progress += 10                     
 
-        # Count number of stations
-        with open("../Cases/Holland/StationsHolland.csv", "r") as f:
-            next(f)
-            num_stations = len(f.readlines())  
-
-        # Count number of connections
-            with open("../Cases/Holland/ConnectiesHolland.csv", "r") as f:
-                next(f)       
-                num_connections = len(f.readlines())   
-
-        # Creates list of connections 
-        with open("../Cases/Holland/ConnectiesHolland.csv", "r") as f:
-            next(f)
-            list_connections = []    
-            for connection in f.readlines():
-                cur_connection = connection.split(",")
-                clean_connection = cur_connection[0:2]
-                list_connections.append(clean_connection)    
-        
-        # Count number of connections
-        num_connections = len(list_connections)
+        # Set up copy of list of connections
+        list_connections = list_connections_copy
 
         # Set train number to 1, and total travel time to 0          
         train_count = 1      
@@ -56,10 +35,12 @@ def greedy():
         network = []
 
         # Add a maximum of 7 trains to network while connections are unvisited 
-        while (len(list_connections) > 0) and train_count < 8: 
+        while (len(list_connections) > 0) and train_count <= max_trajectories: 
 
-            # Create Train object with random start station, remove station number from list of possible starting stations
-            list_number = random.randint(0, len(list_station_numbers) - 1)
+            # Create Train object with random start station, remove station number from list of possible starting stations        
+            if len(list_station_numbers) == 0:
+                break
+            list_number = random.randint(0, len(list_station_numbers) - 1)             
             next_station_number = list_station_numbers[list_number]         
             list_station_numbers.pop(list_number)
             train = Train(stations[next_station_number])
@@ -79,7 +60,7 @@ def greedy():
                 station_connections = stations[current_station_number].connections    
                 sorted_station_connections = (sorted(station_connections.items(), key=lambda x: x[1]))
                 num_station_connections = len(sorted_station_connections)
-
+                
                 # Select next station that has not been visited yet by train, closest in range
                 for i in range(num_station_connections):                
                     if stations[sorted_station_connections[0][0]].station_name in train.destination_history:
@@ -95,7 +76,7 @@ def greedy():
                     break
                 
                 # End route if travel_time goes above 120 minutes with next destination, else move to next station                    
-                if (train.travel_time + train.current_station.connections[closest_connection]) > 120:      
+                if (train.travel_time + train.current_station.connections[closest_connection]) > max_time:      
                     break
                 else:                    
                     for i in range(len(list_connections)):               
@@ -115,7 +96,11 @@ def greedy():
                     # Add next station to travel history and move towards it
                     train.add_destination_to_history(stations[closest_connection])      
 
-                    # Update current station
+                    # Update current station                    
+                    for i in range(len(list_station_numbers) - 1):               
+                        if list_station_numbers[i] == current_station_number and len(list_station_numbers) > 0:
+                            list_station_numbers.pop(i)
+
                     current_station = stations[closest_connection]
                     current_station_number = stations[closest_connection].station_number               
            
@@ -124,6 +109,7 @@ def greedy():
             network += train.destination_history
 
             # Move to new train
+            network.append(f"{train.travel_time} minutes")
             train_count += 1
 
         # Calculate fraction of visited connections
@@ -137,9 +123,9 @@ def greedy():
         Min = total_travel_time
 
         # Calculate the quality score for network, and add to sum of all network scores
-        final_score = p*10000 - (T*100 + Min)
+        final_score = p*10000 - ((T*100) + Min)
         sum_scores += final_score
-        
+               
         # Save best score and network
         if final_score > top_score:
             top_score = final_score

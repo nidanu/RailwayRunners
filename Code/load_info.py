@@ -43,7 +43,7 @@ def create_list_of_stations(station_file) -> List:
 def postman_station(station_file, connection_file):
     # Create list for all stations
     stations = []       
-
+  
     # Count number of stations
     with open(station_file, "r") as f:
         next(f)
@@ -92,8 +92,7 @@ def postman_station(station_file, connection_file):
     return stations, Station_Postman
 
 def create_station_connections(station_file, connection_file, stations: List[Station]) -> None:
-
-    # Count number of stations
+    # Count number of stations    
     with open(station_file, "r") as f:
         next(f)
         num_stations = len(f.readlines())  
@@ -114,6 +113,7 @@ def create_station_connections(station_file, connection_file, stations: List[Sta
             station_2 = connection[1]
             
             for j in range(num_stations):
+                #print(stations[j])
                 if stations[j].station_name == station_1:
                     save_station_1 = j               
                 if stations[j].station_name == station_2:

@@ -37,8 +37,8 @@ with open(file_connections, "r") as f:
     for connection in f.readlines():
         cur_connection = connection.split(",")
         clean_connection = cur_connection[0:2]
-        list_connections.append(clean_connection)    
-        list_connection_lengths.append(int(cur_connection[2]))
+        list_connections.append(clean_connection)            
+        list_connection_lengths.append(float(cur_connection[2]))
     min_time = sum(list_connection_lengths)
 
 # Ask for test input
@@ -66,7 +66,7 @@ elif style == "7":
     seven_bridges(num_stations, num_connections, stations, list_connections, min_time)
 
 elif style == "greedy":
-    greedy()
+    greedy(num_stations, num_connections, stations, list_connections, min_time, max_time, max_trajectories)
 
 elif style == "postman":
     runs = input("How many runs? Enter an integer. ")
