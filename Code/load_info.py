@@ -112,8 +112,7 @@ def create_station_connections(station_file, connection_file, stations: List[Sta
             station_1 = connection[0]
             station_2 = connection[1]
             
-            for j in range(num_stations):
-                #print(stations[j])
+            for j in range(num_stations):                
                 if stations[j].station_name == station_1:
                     save_station_1 = j               
                 if stations[j].station_name == station_2:

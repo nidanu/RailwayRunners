@@ -5,23 +5,10 @@ from collections import defaultdict
 sys.path.append('..')
 from Code.load_info import create_list_of_stations, create_station_connections 
 
-# Create list with all stations + connections
-stations, num_stations = create_list_of_stations("../Cases/Holland/StationsHolland.csv")
-#num_connections = create_station_connections("../Cases/Holland/StationsHolland.csv", "../Cases/Holland/ConnectiesHolland.csv", stations)
-
-# Count number of stations
-with open("../Cases/Holland/StationsHolland.csv", "r") as f:
-    next(f)
-    num_stations = len(f.readlines())  
-"""
-# Count number of connections
-with open("../Cases/Holland/ConnectiesHolland.csv", "r") as f:
-    next(f)       
-    num_connections = len(f.readlines())     """
 
 class Graph:	
     # Constructor and destructor
-    def __init__(self, V, station_number):
+    def __init__(self, V, station_number, stations, num_stations, max_time, list_connections, file_connections):
         self.V = V
         self.adj = defaultdict(list)
 
@@ -29,10 +16,15 @@ class Graph:
         
         self.travel_time_train = 0
         self.train_count = 1
-        self.total_time_network = 0
+        self.total_time_network = 0        
         
+        self.stations_visited = []       
+        self.stations = stations
         self.starting_station = station_number
-        self.stations_visited = []
+        self.num_stations = num_stations
+        self.max_time = max_time
+        self.list_connections = list_connections     
+        self.file_connections = file_connections
 
     # Functions to add and remove edge
     def addEdge(self, u, v):
@@ -57,37 +49,62 @@ class Graph:
         
     def printEulerUtil(self, u):		
         
-        if stations[u].station_name not in self.stations_visited:
-            self.stations_visited.append(stations[u].station_name)
+        if self.stations[u].station_name not in self.stations_visited:
+            self.stations_visited.append(self.stations[u].station_name)
             
-        if len(self.stations_visited) == num_stations and self.all_stations_visited == False:	
+        if len(self.stations_visited) == self.num_stations and self.all_stations_visited == False:	
             self.total_time_network += self.travel_time_train		
-            print(f"ROUTE {self.train_count}: {self.travel_time_train} minutes")
-            self.final_score = 10000 - ((self.train_count*100) + self.total_time_network)            
+            print(f"ROUTE {self.train_count}: {self.travel_time_train} minutes")         
+               
+            p = 1 - (len(self.list_connections) / self.num_stations)       
+            self.final_score = (10000 * p) - ((self.train_count*100) + self.total_time_network)    
+
+            with open(self.file_connections, "r") as f:
+                next(f)
+                self.list_connections = []
+                list_connection_lengths = []
+                for connection in f.readlines():
+                    cur_connection = connection.split(",")
+                    clean_connection = cur_connection[0:2]
+                    self.list_connections.append(clean_connection)            
+                    list_connection_lengths.append(float(cur_connection[2]))              
+                
             self.all_stations_visited = True
-            self.stations_visited = []            
+            self.stations_visited = []          
+            
                     
         # Recur for all the vertices adjacent to this vertex
-        if len(self.stations_visited) < num_stations and self.all_stations_visited == False:
-            for v in self.adj[u]:
-                
+        if len(self.stations_visited) < self.num_stations and self.all_stations_visited == False:
+            for v in self.adj[u]:                
                 # If edge u-v is not removed and it's a valid next edge
-                if v != -1 and self.isValidNextEdge(u, v):                    
-                    if self.travel_time_train + stations[u].connections[v] > 120 and self.all_stations_visited == False:
+                if v != -1 and self.isValidNextEdge(u, v):                                      
+                    if self.travel_time_train + self.stations[u].connections[v] > self.max_time and self.all_stations_visited == False:
                         print(f"ROUTE {self.train_count}: {self.travel_time_train} minutes")
                         self.train_count += 1
                         self.total_time_network += self.travel_time_train 
-                        self.travel_time_train = 0
-                    
+                        self.travel_time_train = 0                                        
                         print()
                         
                     if self.all_stations_visited == False:
-                        print(stations[u].station_name, "-", stations[v].station_name)                    
+                        print(self.stations[u].station_name, "-", self.stations[v].station_name)          
+                        
+                        for i in range(len(self.list_connections)):                             
+
+                            # Delete visited connection from list of connections
+                            if self.list_connections[i][0] == self.stations[u].station_name and self.list_connections[i][1] ==  self.stations[v].station_name:
+                                current_connection = i                    
+                                self.list_connections.pop(current_connection)
+                                break
+                            elif self.list_connections[i][0] ==  self.stations[v].station_name and self.list_connections[i][1] == self.stations[u].station_name:
+                                current_connection = i                   
+                                self.list_connections.pop(current_connection)
+                                break              
                 
-                    self.travel_time_train += stations[u].connections[v]                			
+                    self.travel_time_train += self.stations[u].connections[v]                			
                                     
                     self.rmvEdge(u, v)
                     self.printEulerUtil(v)
+                                    
 
     # The function to check if edge u-v can be considered
     # as next edge in Euler Tout

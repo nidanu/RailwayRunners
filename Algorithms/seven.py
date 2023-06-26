@@ -1,5 +1,6 @@
-from Algorithms.bridges import Graph
-def seven_bridges(num_stations, num_connections, stations, list_connections, min_time): 
+from Classes.bridges import Graph
+
+def seven_bridges(num_stations, num_connections, stations, list_connections, min_time, file_connections, max_time): 
     # Create variables for score calculations
     top_score = 0 
     average_score = 0 
@@ -8,12 +9,12 @@ def seven_bridges(num_stations, num_connections, stations, list_connections, min
     # Create network starting from each available station and calculate network score
     for l in range(num_stations):  
         # Create empty Graph and print starting station route              
-        g = Graph(num_stations, l) 
+        g = Graph(num_stations, l, stations, num_stations, max_time, list_connections, file_connections) 
         print(f" -" * 20)             
         print(f"Starting station: {stations[g.starting_station].station_name} \n")
 
         # Load all connections into Graph
-        with open("../Cases/Holland/ConnectiesHolland.csv", "r") as f:
+        with open(file_connections, "r") as f:
             next(f)       
             for i in range(num_connections):
                 connection_str = f.readline()
@@ -35,7 +36,7 @@ def seven_bridges(num_stations, num_connections, stations, list_connections, min
         
         g.printEulerTour()	
         print()
-        print(f"Score: {g.final_score}")
+        print(f"Score: {round(g.final_score, 2)}")
         print(f"Total time: {g.total_time_network}")   
 
         # Add score and time to variables to calculate overall average
@@ -49,12 +50,12 @@ def seven_bridges(num_stations, num_connections, stations, list_connections, min
 
     # Print best scoring starting station
     print(f" -" * 20)  
-    g = Graph(num_stations, top_station)
+    g = Graph(num_stations, top_station, stations, num_stations, max_time, list_connections, file_connections)
     print("Best schedule: ")
     print(f"Top score: {top_score}")  
     print()        
 
-    with open("../Cases/Holland/ConnectiesHolland.csv", "r") as f:
+    with open(file_connections, "r") as f:
         next(f)       
         for i in range(num_connections):
             connection_str = f.readline()

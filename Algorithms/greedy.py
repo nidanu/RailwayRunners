@@ -49,9 +49,8 @@ def greedy(num_stations, num_connections, stations, list_connections, min_time, 
             current_station_number = train.train_name.station_number
             current_station = stations[current_station_number]
 
-            # Save train information to network list
-            network.append(" -" * 20)
-            network.append(f"Route {train_count}")
+            # Save grid to network list
+            network.append(" -" * 20)           
             
             # Add destinations to Train object while travel time is below 120 minutes
             while train.travel_time < 120:
@@ -75,7 +74,7 @@ def greedy(num_stations, num_connections, stations, list_connections, min_time, 
                 if closest_connection not in train.current_station.connections:       
                     break
                 
-                # End route if travel_time goes above 120 minutes with next destination, else move to next station                    
+                # End route if travel_time goes above 120/360 minutes with next destination, else move to next station                    
                 if (train.travel_time + train.current_station.connections[closest_connection]) > max_time:      
                     break
                 else:                    
@@ -108,8 +107,8 @@ def greedy(num_stations, num_connections, stations, list_connections, min_time, 
             total_travel_time += train.travel_time              
             network += train.destination_history
 
-            # Move to new train
-            network.append(f"{train.travel_time} minutes")
+            # Print route time and move to new train
+            network.append(f"ROUTE {train_count}: {train.travel_time} minutes")
             train_count += 1
 
         # Calculate fraction of visited connections

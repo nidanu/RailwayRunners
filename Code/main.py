@@ -5,7 +5,7 @@ Runs simulation of train travelling through network map of all connections.
 
 import sys 
 sys.path.append('..')
-from Algorithms.bridges import Graph  
+from Classes.bridges import Graph  
 from Algorithms.random_dijkstra import *
 from Algorithms.greedy import greedy
 from Algorithms.seven import seven_bridges 
@@ -63,7 +63,7 @@ elif style == "heur":
     heur(num_stations, num_connections, stations, list_connections, min_time)
     
 elif style == "7":
-    seven_bridges(num_stations, num_connections, stations, list_connections, min_time)
+    seven_bridges(num_stations, num_connections, stations, list_connections, min_time, file_connections, max_time)
 
 elif style == "greedy":
     greedy(num_stations, num_connections, stations, list_connections, min_time, max_time, max_trajectories)
