@@ -5,6 +5,7 @@ path algorithm.
 import random
 import copy
 import sys
+from statistics import mean
 sys.path.append("..")
 from Classes.station_postman import *
 from Algorithms.dijkstra import *
@@ -334,12 +335,27 @@ class Postman():
         K = p*10000 - (T*100 + Min)
         return K
 
-    def generate_route(self):
+    def generate_route(scores, best_trajectories, runs):
         """
         TO DO: Write a function that returns the path taken, including steps from Dijsktra's
         algorithm.
         """
-        pass
+        if scores:
+            maximum = max(scores)   
+            minimum = min(scores)
+            average = mean(scores)
+            print(f"The maximum score for {runs} runs is {maximum}, the minimum is {minimum}, and the mean is {round(average)}.")
+            print("Best route started at %s with %s trajectories." % (best_trajectories[0][1][0], len(best_trajectories)))
+            print_route = input("Print trajectories? Choose Y/N. ")
+            if print_route.lower() == 'y':
+                for trajectory in best_trajectories:
+                    print("Trajectory %s: %s" % (best_trajectories.index(trajectory) + 1, " -> ".join(trajectory[1])))
+                return 1
+            else:
+                return 1
+        else:
+            print("Path not found in given runs.")
+            return 0
     
     def postman_algorithm(max_time: int, max_trajectories: int, runs: int) -> int:
         """"
@@ -347,6 +363,7 @@ class Postman():
         """
         vertices = []
         graph = {}
+        best_trajectories = ''
         
         for station in Station_Postman:
             graph[station.station_name] = station.connections
@@ -359,9 +376,10 @@ class Postman():
             score = Postman.calculate_score(trajectories)
             if len(trajectories) <= max_trajectories:
                 scores.append(score)
-        if scores:
-            top_score = max(scores)
-            print(f"The maximum score for {runs} runs is {top_score}.")
-        else:
-            print("Path not found in given runs.")
+                if scores:
+                    if score >= max(scores):
+                        best_trajectories = trajectories
+        
+        Postman.generate_route(scores, best_trajectories, runs)
+        return 1
         

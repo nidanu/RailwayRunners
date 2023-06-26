@@ -79,7 +79,7 @@ elif style == "postman":
 elif style == "random dijkstra":
     runs = input("How many runs? Enter an integer. ")
     if int(runs) > 0:
-        maximum, minimum, average = Quick_dijkstra.random_dijkstra(int(runs), max_time)
+        maximum, minimum, average = Quick_dijkstra.random_dijkstra(int(runs), max_time, file_stations, file_connections)
         print(f"The maximum score for {runs} runs is {maximum}, the minimum is {minimum}, and the mean is {average}.")
     else:
         print("Enter valid input.")

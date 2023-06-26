@@ -5,6 +5,7 @@ from statistics import mean
 sys.path.append("..")
 from Classes.station_postman import *
 from Algorithms.dijkstra import *
+from Code.load_info import *
 
 class Quick_dijkstra:
 
@@ -38,11 +39,12 @@ class Quick_dijkstra:
         else:
             return False
     
-    def run_dijkstra(self, max_time):
+    def run_dijkstra(self, max_time, graph):
         total_time = 0
         trajectories = []
         total_trajectories = 0
-        while self.all_visited == False:
+        while self.all_visited(graph) == False:
+            print(self.all_visited)
             start_v, end_v = self.selection_start()
             trajectory_time = 0
             current_trajectory = []
@@ -71,22 +73,24 @@ class Quick_dijkstra:
         K = p*10000 - (T*100 + Min)
         return K
 
-    def random_dijkstra(runs, max_time):
+    def random_dijkstra(runs, max_time, file_stations, file_connections):
         scores = []
         vertices = []
         graph = {}
-        
+        stations, Station_Postman = postman_station(file_stations, file_connections)
         for station in Station_Postman:
             graph[station.station_name] = station.connections
             vertices.append(station.station_name)
         for _ in range(runs):
             quick_dijk = Quick_dijkstra(vertices, graph)
-            total_time, trajectories, total_trajectories = quick_dijk.run_dijkstra(max_time)
+            total_time, trajectories, total_trajectories = quick_dijk.run_dijkstra(max_time, graph)
             score = quick_dijk.score_time(total_time, total_trajectories)
             scores.append(score)
         
         maximum = max(scores)   
         minimum = min(scores)
         average = mean(scores)
+
+        
 
         return maximum, minimum, average
