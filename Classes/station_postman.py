@@ -4,7 +4,7 @@ Inherited class from Station object. Does not make use of station numbers.
 """
 
 from .station import Station
-from typing import Dict
+from typing import Dict, List
 
 class Station_Postman(Station):
     def __init__(self, station_name: str):
@@ -13,5 +13,5 @@ class Station_Postman(Station):
         self.connections: Dict[str, int] = {}
         self.visited = False
     
-    def get_connections(self) -> list[str]:
+    def get_connections(self) -> List[str]:
         return list(self.connections.keys())

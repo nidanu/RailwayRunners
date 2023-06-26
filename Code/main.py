@@ -46,7 +46,7 @@ style = input("What style of test? ")
 stations, num_stations = create_list_of_stations(file_stations)
 num_connections = create_station_connections(file_stations, file_connections, stations) 
 
-print(stations[0].connections)
+#print(stations[0].connections)
 
 # Contains all styles of tests 
 if style.lower() == "max":

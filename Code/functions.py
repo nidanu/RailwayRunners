@@ -168,6 +168,9 @@ def print_program_stats(total_runs: int, duration: float) -> None:
     print()
     
 def run_tests_and_draw_histogram(scores: List[float]) -> None:
+    from scipy import stats
+    import numpy as np
+
     # Shapiro-Wilk Test
     shapiro_test = stats.shapiro(scores)
     print("Shapiro-Wilk Test:")
