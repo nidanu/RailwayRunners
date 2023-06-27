@@ -44,7 +44,7 @@ def main():
         runs = input("How many runs? Enter an integer. ")
         if int(runs) > 0:
             stations, Station_Postman = postman_station(file_stations, file_connections)
-            Postman.postman_algorithm(max_time, max_trajectories, int(runs))
+            scores = Postman.postman_algorithm(max_time, max_trajectories, int(runs))
         else:
             print("Enter valid input.")
 

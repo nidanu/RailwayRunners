@@ -260,7 +260,7 @@ class Postman():
             min_index = possible_edges.index(minimum)
 
             if (total_weight + int(minimum)) > max_time:
-                self.count+=1
+
                 #print(trajectories)
                 if trajectories:
                     #print(len(trajectories))
@@ -358,30 +358,26 @@ class Postman():
         """
         Prnts trajectories taken.
         """
-        trajectories = best_trajectories[::-1]
         if scores:
             maximum = max(scores)   
             minimum = min(scores)
             average = mean(scores)
-            #print("TRAJ", best_trajectories)
             print(f"The maximum score for {runs} runs is {maximum}, the minimum is {minimum}, and the mean is {round(average)}.")
             print("Best route started at %s with %s trajectories." % (best_trajectories[0][1][0], len(best_trajectories)))
-            print_route = input("Print trajectories? Choose Y/N. ")
+            return 1
+            """print_route = input("Print trajectories? Choose Y/N. ")
             if print_route.lower() == 'y':
                 for trajectory in best_trajectories:
                     print("Trajectory %s, time %s: \n%s" % (best_trajectories.index(trajectory) + 1, trajectory[0], "\n".join(trajectory[1])))
                     print("-------------------------------------------")
                 return 1
             else:
-                return 1
+                return 1"""
         else:
             print("Path not found in given runs.")
             return 0
-    
-    def print_count(self):
-        print("COUNT", self.count)
 
-    def postman_algorithm(max_time: int, max_trajectories: int, runs: int) -> int:
+    def postman_algorithm(max_time: int, max_trajectories: int, runs: int) -> List[int]:
         """"
         Runs the algorithm for a certain amount of runs, returns the max score
         """
@@ -410,11 +406,10 @@ class Postman():
                 scores.append(score)
                 if scores:
                     if score >= max(scores):
-                        print("\nCircuit", circuit, '\n-----')
+                        #print("\nCircuit", circuit, '\n-----')
                         best_trajectories = trajectories
     
-        print(best_trajectories)
-        Postman.print_count(Postman)
+        #print(best_trajectories)
         Postman.generate_route(scores, best_trajectories, runs)
-        return 1
+        return scores
         

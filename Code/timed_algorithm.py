@@ -20,7 +20,7 @@ def run_algorithm(algorithm: str):
         print(f"run: {n_runs}")
 
         # Times out after 60 seconds
-        score = subprocess.call(["timeout", "60", "python3", "%s"] % (algorithm))
+        score = subprocess.call(["timeout", "60", "python3", "Algorithms/greedy.py"])
         n_runs += 1
         scores.append(score)
 
@@ -34,3 +34,7 @@ def save_results(csv_file_path: str, scores: List[int]) -> None:
     with open(csv_file_path, 'w', newline='') as csvfile:
         csv_writer = csv.writer(csvfile)
         csv_writer.writerows(scores)
+
+
+
+run_algorithm('greedy.py')
