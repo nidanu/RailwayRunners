@@ -41,12 +41,8 @@ def main():
         greedy(num_stations, num_connections, stations, list_connections, min_time, max_time, max_trajectories)
 
     elif style == "postman":
-        runs = input("How many runs? Enter an integer. ")
-        if int(runs) > 0:
-            stations, Station_Postman = postman_station(file_stations, file_connections)
-            scores = Postman.postman_algorithm(max_time, max_trajectories, int(runs))
-        else:
-            print("Enter valid input.")
+        stations, Station_Postman = postman_station(file_stations, file_connections)
+        Postman.postman_algorithm(max_time, max_trajectories)
 
     else:
         print("Please give an existing style.\nStyles:\n- normal\n- single\n- max\n- heur\n- greedy\n- 7\n- postman")

@@ -4,6 +4,7 @@ Algorithm for the Route Inspection Problem/Postman Tour. Makes use of Dijkstra's
 path algorithm.
 """
 import random
+import keyboard
 import copy
 import sys
 from statistics import mean
@@ -354,7 +355,7 @@ class Postman():
         K = p*10000 - (T*100 + Min)
         return K
 
-    def generate_route(scores: List[str], best_trajectories: Tuple[int, List[Any]], runs: int) -> int:
+    def generate_route(scores: List[str], best_trajectories: Tuple[int, List[Any]]) -> int:
         """
         Prnts trajectories taken.
         """
@@ -362,9 +363,9 @@ class Postman():
             maximum = max(scores)   
             minimum = min(scores)
             average = mean(scores)
-            print(f"The maximum score for {runs} runs is {maximum}, the minimum is {minimum}, and the mean is {round(average)}.")
-            print("Best route started at %s with %s trajectories." % (best_trajectories[0][1][0], len(best_trajectories)))
-            return 1
+            """print(f"The maximum score for {runs} runs is {maximum}, the minimum is {minimum}, and the mean is {round(average)}.")
+            print("Best route started at %s with %s trajectories." % (best_trajectories[0][1][0], len(best_trajectories)))"""
+            return maximum, minimum, average
             """print_route = input("Print trajectories? Choose Y/N. ")
             if print_route.lower() == 'y':
                 for trajectory in best_trajectories:
@@ -377,7 +378,7 @@ class Postman():
             print("Path not found in given runs.")
             return 0
 
-    def postman_algorithm(max_time: int, max_trajectories: int, runs: int) -> List[int]:
+    def postman_algorithm(max_time: int, max_trajectories: int) -> List[int]:
         """"
         Runs the algorithm for a certain amount of runs, returns the max score
         """
@@ -395,21 +396,32 @@ class Postman():
         for station in Station_Postman:
             graph[station.station_name] = station.connections
             vertices.append(station.station_name)
+        print("Running postman tour.")
+        while True:
+            try: 
+                copy_graph = copy.deepcopy(graph)
+                copy_vertices = copy.deepcopy(vertices)
+                circuit, trajectories = Postman.run_postman(copy_vertices, copy_graph, max_time)
+                #print(len(trajectories), trajectories, '\n\n')
+                score = Postman.calculate_score(trajectories)
+                if len(trajectories) <= max_trajectories:
+                    scores.append(score)
+                    if scores:
+                        if score >= max(scores):
+                            #print("\nCircuit", circuit, '\n-----')
+                            best_trajectories = trajectories
 
-        for _ in range(runs):
-            copy_graph = copy.deepcopy(graph)
-            copy_vertices = copy.deepcopy(vertices)
-            circuit, trajectories = Postman.run_postman(copy_vertices, copy_graph, max_time)
-            #print(len(trajectories), trajectories, '\n\n')
-            score = Postman.calculate_score(trajectories)
-            if len(trajectories) <= max_trajectories:
-                scores.append(score)
-                if scores:
-                    if score >= max(scores):
-                        #print("\nCircuit", circuit, '\n-----')
-                        best_trajectories = trajectories
-    
-        #print(best_trajectories)
-        Postman.generate_route(scores, best_trajectories, runs)
-        return scores
+            except KeyboardInterrupt:            
+                maximum, minimum, average = Postman.generate_route(scores, best_trajectories)
+                with open('../Results/postman.txt', 'w') as f:
+                    f.write("Maximum: %s\n" % maximum)
+                    f.write("Minimum: %s\n" % minimum)
+                    f.write("Average: %s\n" % round(average))
+                    f.write(str(scores))
+                    """for i in range(len(best_trajectories[1])):
+                        f.write(best_trajectories[1][i])
+                        f.write('\n')"""
+                    #print(best_trajectories)
+       
+
         
