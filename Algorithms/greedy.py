@@ -12,17 +12,17 @@ from typing import List
 def greedy(num_stations: int, num_connections: int, stations: List[Station], list_connections: List[List[int]], min_time: int, max_time: int, max_trajectories: int) -> None:
     progress = 0
     sum_scores = 0.0
-    top_score = 0.0  
-        
+    top_score = 0.0          
+
     list_connections_copy = list_connections
 
-    num_runs = int(input("How many runs? "))
+    #num_runs = int(input("How many runs? "))
    
-    for i in range(num_runs):
+    while True:
         # Progress printer 
-        if i == 1 or (i % (num_runs/10) == 0):
-            print(f"{progress}%")
-            progress += 10                     
+        #if i == 1 or (i % (num_runs/10) == 0):
+            #print(f"{progress}%")
+            #progress += 10    
 
         # Set up copy of list of connections
         list_connections = list_connections_copy
@@ -134,7 +134,20 @@ def greedy(num_stations: int, num_connections: int, stations: List[Station], lis
         if final_score > top_score:
             top_score = final_score
             top_route = network  
+            with open('greedy.txt', 'w') as f:
+                f.write(str(round(top_score, 0)))
+                for i in range(len(top_route)):
+                    f.write(top_route[i])
+                    f.write('\n')
 
+            print()
+            print(f"New best network: {round(top_score, 0)} points.")
+            for i in range(len(top_route)):
+                print(top_route[i])
+        if progress % 1000 == 0:
+            print(progress)
+        
+        progress += 1
     # Calculate average network quality score of all runs
     average_score = sum_scores / num_runs 
    

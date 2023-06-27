@@ -1,0 +1,205 @@
+4108.0 - - - - - - - - - - - - - - - - - - - -
+Den Haag Laan v NOI
+Leiden Centraal
+Den Haag Centraal
+Delft
+Schiedam Centrum
+Rotterdam Centraal
+Rotterdam Alexander
+Rotterdam Blaak
+Dordrecht
+Breda
+Etten-Leur
+Roosendaal
+Vlissingen
+ROUTE 1: 176 minutes
+ - - - - - - - - - - - - - - - - - - - -
+Beverwijk
+Castricum
+Alkmaar
+Hoorn
+Zaandam
+Amsterdam Sloterdijk
+Amsterdam Centraal
+Amsterdam Amstel
+Amsterdam Zuid
+Schiphol Airport
+Leiden Centraal
+Den Haag Laan v NOI
+Delft
+Schiedam Centrum
+Rotterdam Centraal
+Rotterdam Alexander
+Rotterdam Blaak
+Dordrecht
+Breda
+Etten-Leur
+Roosendaal
+Vlissingen
+ROUTE 2: 286 minutes
+ - - - - - - - - - - - - - - - - - - - -
+Venlo
+Helmond
+Eindhoven
+Weert
+Roermond
+Sittard
+Maastricht
+ROUTE 3: 100 minutes
+ - - - - - - - - - - - - - - - - - - - -
+Assen
+Groningen
+Leeuwarden
+Heerenveen
+Steenwijk
+Zwolle
+Deventer
+Apeldoorn
+Zutphen
+Dieren
+Arnhem Centraal
+Ede-Wageningen
+Utrecht Centraal
+Amersfoort
+ROUTE 4: 228 minutes
+ - - - - - - - - - - - - - - - - - - - -
+Haarlem
+Heemstede-Aerdenhout
+Leiden Centraal
+Den Haag Laan v NOI
+Delft
+Schiedam Centrum
+Rotterdam Centraal
+Rotterdam Alexander
+Rotterdam Blaak
+Dordrecht
+Breda
+Etten-Leur
+Roosendaal
+Vlissingen
+ROUTE 5: 182 minutes
+ - - - - - - - - - - - - - - - - - - - -
+Amersfoort
+Utrecht Centraal
+Hilversum
+Almere Centrum
+Lelystad Centrum
+ROUTE 6: 69 minutes
+ - - - - - - - - - - - - - - - - - - - -
+Vlissingen
+Roosendaal
+Etten-Leur
+Breda
+Tilburg
+s-Hertogenbosch
+Oss
+Nijmegen
+Arnhem Centraal
+Ede-Wageningen
+Utrecht Centraal
+Amersfoort
+Apeldoorn
+Deventer
+Zutphen
+Dieren
+ROUTE 7: 250 minutes
+ - - - - - - - - - - - - - - - - - - - -
+Enschede
+Hengelo
+Almelo
+Deventer
+Apeldoorn
+Zutphen
+Dieren
+Arnhem Centraal
+Ede-Wageningen
+Utrecht Centraal
+Amersfoort
+Zwolle
+Steenwijk
+Heerenveen
+Leeuwarden
+Groningen
+Assen
+ROUTE 8: 280 minutes
+ - - - - - - - - - - - - - - - - - - - -
+Gouda
+Rotterdam Alexander
+Rotterdam Centraal
+Schiedam Centrum
+Delft
+Den Haag HS
+Leiden Centraal
+Den Haag Laan v NOI
+ROUTE 9: 59 minutes
+ - - - - - - - - - - - - - - - - - - - -
+Maastricht
+Sittard
+Heerlen
+ROUTE 10: 30 minutes
+ - - - - - - - - - - - - - - - - - - - -
+Den Helder
+Alkmaar
+Castricum
+Zaandam
+Amsterdam Sloterdijk
+Amsterdam Centraal
+Amsterdam Amstel
+Amsterdam Zuid
+Schiphol Airport
+Leiden Centraal
+Den Haag Laan v NOI
+Delft
+Schiedam Centrum
+Rotterdam Centraal
+Rotterdam Alexander
+Rotterdam Blaak
+Dordrecht
+Breda
+Etten-Leur
+Roosendaal
+Vlissingen
+ROUTE 11: 271 minutes
+ - - - - - - - - - - - - - - - - - - - -
+s-Hertogenbosch
+Oss
+Nijmegen
+Arnhem Centraal
+Ede-Wageningen
+Utrecht Centraal
+Amersfoort
+Apeldoorn
+Deventer
+Zutphen
+Dieren
+ROUTE 12: 141 minutes
+ - - - - - - - - - - - - - - - - - - - -
+Lelystad Centrum
+Almere Centrum
+Amsterdam Centraal
+Amsterdam Sloterdijk
+Zaandam
+Castricum
+Alkmaar
+Hoorn
+ROUTE 13: 91 minutes
+ - - - - - - - - - - - - - - - - - - - -
+Heerlen
+Sittard
+Maastricht
+ROUTE 14: 30 minutes
+ - - - - - - - - - - - - - - - - - - - -
+Alphen a/d Rijn
+Leiden Centraal
+Den Haag Laan v NOI
+Delft
+Schiedam Centrum
+Rotterdam Centraal
+Rotterdam Alexander
+Rotterdam Blaak
+Dordrecht
+Breda
+Etten-Leur
+Roosendaal
+Vlissingen
+ROUTE 15: 177 minutes
