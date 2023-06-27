@@ -75,13 +75,22 @@ class Postman():
         Returns them in a dictionary of form paths[(start_vertex, end_vertex)] = {(weight_of_shortest_path, route_taken)}.
         """
         paths: Dict = {}
-        
+        total_sums = []
         for list in possible_pairs: # List is the list of [(a, b), (c, d), ...] pairs
+            sum_pairs = 0
             for pair in list:
                 # Weight of shortest path
                 distance, route = Dijkstra.get_results(self.vertices, self.graph, pair[0], pair[1])
+                sum_pairs += distance
+            total_sums.append(total_sums)
+                #paths[(pair[0], pair[1])] = (distance, route)
+        min_index = total_sums.index(min(total_sums))
+        pairings = possible_pairs[min_index]
+        for pair in pairings:
+                # Weight of shortest path
+                distance, route = Dijkstra.get_results(self.vertices, self.graph, pair[0], pair[1])
                 paths[(pair[0], pair[1])] = (distance, route)
-
+        
         return paths
 
     def find_min(self, weights: List[int], pairs: List[Any]) -> Tuple[str, str]:
@@ -325,11 +334,12 @@ class Postman():
         postman = Postman(vertices, graph)
 
         odd = postman.odd_vertices()  # Find odd vertices
-        selection = Postman.selection_start(odd)
+        """selection = Postman.selection_start(odd)
         start_vertex = selection[0]
-        remaining_odd = selection[2]
-    
-        possible_pairs = Postman.possible_pairs(remaining_odd) # Possible pairs
+        remaining_odd = selection[2]"""
+        index_start = random.randint(0, len(odd) - 1)
+        start_vertex = odd[index_start]
+        possible_pairs = Postman.possible_pairs(odd) # Possible pairs
         shortest_pairs = postman.shortest_pair_path(possible_pairs) # All the shortest paths of the possible pairs
         matching = postman.minimum_matching(shortest_pairs) # Finding minimum matching of shortest paths
         modified_graph = postman.modify_graph(matching) # Add the matching to the original graph
@@ -404,6 +414,7 @@ class Postman():
                 circuit, trajectories = Postman.run_postman(copy_vertices, copy_graph, max_time)
                 #print(len(trajectories), trajectories, '\n\n')
                 score = Postman.calculate_score(trajectories)
+                print(score)
                 if len(trajectories) <= max_trajectories:
                     scores.append(score)
                     if scores:

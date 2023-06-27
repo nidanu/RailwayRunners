@@ -2,6 +2,8 @@
 """
 Runs simulation of train travelling through network map of all connections.
 """
+import sys
+
 from Algorithms.greedy import greedy
 from Algorithms.seven import seven_bridges 
 from Algorithms.postman import Postman
@@ -11,6 +13,8 @@ from Algorithms.single import single
 from functions import *
 from load_info import postman_station
 from choose_case import choose_case
+sys.path.append('..')
+from Visualisation.network import nx_network
 
 def main():
     num_connections, num_stations, file_stations, file_connections, stations, list_connections, min_time, max_time, max_trajectories = choose_case()
@@ -46,5 +50,9 @@ def main():
 
     else:
         print("Please give an existing style.\nStyles:\n- normal\n- single\n- max\n- heur\n- greedy\n- 7\n- postman")
+
+def visuals():
+    num_connections, num_stations, file_stations, file_connections, stations, list_connections, min_time, max_time, max_trajectories = choose_case()
+    nx_network(stations)
 
 main()

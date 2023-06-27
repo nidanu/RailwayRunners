@@ -5,9 +5,13 @@ Visualises train stop & their connections in a network map.
 The nodes are plotted using the coordinates of the stations as specified in 
 the Station class.
 """
+import networkx as nx
 import matplotlib.pyplot as plt
-from typing import Any
-from Visualisation.scatter import *
+import sys
+from pyvis.network import Network
+sys.path.append('..')
+from Code.Classes.station import Station
+from typing import Any, Type
 
 def network_map(Station: Type['Station']) -> Any:
     """
@@ -50,3 +54,33 @@ def network_map(Station: Type['Station']) -> Any:
 
     # Display the graph
     plt.show()
+
+def nx_network(Station: Type['Station']):
+    G = nx.Graph()
+    nodes = []
+    edges = []
+    for station in Station:
+        keys = (list(station.connections.keys()))
+        nodes.append((station.station_name, station.x, station.y))
+        for key in keys:
+            edges.append((station.station_name, key, station.connections[key]))
+    pos = {}
+    
+    for node in nodes:
+        G.add_node(node[0], size=15)
+        pos[node[0]] = (node[1], node[2])
+    for edge in edges:
+        start_node = edge[0]
+        end_number = int(edge[1])
+        weight = int(edge[2])
+        end_node = nodes[end_number][0]
+        G.add_edge(start_node, end_node, weight=weight)
+
+    net = Network(notebook=True)
+    net.from_nx(G)
+    net.write_html("../Visualisation/graph.html")
+   # pos = nx.spring_layout(G)  # Compute node positions
+    """nx.draw(G, pos, with_labels=True, node_color='lightblue', edge_color='gray')
+    labels = nx.get_edge_attributes(G, 'weight')
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
+    plt.show()"""

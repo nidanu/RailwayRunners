@@ -4,7 +4,9 @@ Plots results into a scatter plot.
 """
 import matplotlib.pyplot as plt
 from typing import Any
-from Classes.station import *
+import sys
+sys.path.append('..')
+from Code.Classes.station import Station
 
 def scatter_plot(filename: str) -> None:
     """
