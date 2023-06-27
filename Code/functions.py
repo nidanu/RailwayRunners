@@ -3,7 +3,7 @@ from Classes.station import Station
 from Classes.train import Train
 from Classes.station import Station
 import matplotlib.pyplot as plt
-#from scipy import stats
+from scipy import stats
 from typing import List, Tuple, NamedTuple
 
 

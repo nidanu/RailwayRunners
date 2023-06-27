@@ -5,7 +5,7 @@ sys.path.append('..')
 
 from Classes.station import Station
 from Classes.train import Train
-from Code.load_info import create_list_of_stations, create_station_connections 
+from load_info import create_list_of_stations, create_station_connections 
 
 from typing import List
 
