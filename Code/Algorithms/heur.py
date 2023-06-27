@@ -1,12 +1,13 @@
 import random
 import time
 import sys 
-sys.path.append('..')
-
-from Classes.train import Train
-from Code.functions import *
 import matplotlib.pyplot as plt
-#from scipy import stats
+from scipy import stats
+
+sys.path.append('..')
+from Classes.train import Train
+from functions import *
+
 
 def heur(num_stations, num_connections, stations, list_connections, min_time):
     # Set variables for big loop

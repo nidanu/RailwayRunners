@@ -44,6 +44,8 @@ class Dijkstra:
     def get_results(vertices, graph, start, end):
         dijkstra = Dijkstra(vertices, graph)
         p, v = dijkstra.find_route(start, end)
+        #print("START", start, end)
+        #print(p,v)
         #print("Distance from %s to %s is: %.2f" % (start, end, v[end]))
         se = dijkstra.generate_path(p, start, end)
         #print("Path from %s to %s is: %s" % (start, end, " -> ".join(se)))

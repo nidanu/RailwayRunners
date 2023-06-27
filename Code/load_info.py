@@ -2,17 +2,17 @@
 """
 Loads info from .csv file into Station classes.
 """
-import sys
-sys.path.append("..")
 from Classes.station import Station
 from Classes.station_postman import Station_Postman
-from Classes.train import Train
 from Classes.station import Station
-from typing import List, Tuple, Type
-from typing import NamedTuple
-#from functions import 
+from typing import List
 
-def create_list_of_stations(station_file: str) -> Tuple[List[Station], int]:    
+def create_list_of_stations(station_file: str) -> List:
+    """
+    Opens .csv file with the stations and initiates them into the Station class.
+    
+    Returns a list of all the stations and the number of stations in the case.
+    """
 
     # Create list for all stations
     stations = []       
@@ -40,7 +40,12 @@ def create_list_of_stations(station_file: str) -> Tuple[List[Station], int]:
 
     return stations, num_stations       
 
-def postman_station(station_file: str, connection_file: str) -> Tuple[List[Station_Postman], Type[Station_Postman]]:
+def postman_station(station_file: str, connection_file: str):
+    """
+    Opens .csv file with the stations and initiates them into the Station_Postman class.
+    
+    Returns a list of all the stations and the class.
+    """
     # Create list for all stations
     stations = []       
   
@@ -92,6 +97,11 @@ def postman_station(station_file: str, connection_file: str) -> Tuple[List[Stati
     return stations, Station_Postman
 
 def create_station_connections(station_file: str, connection_file: str, stations: List[Station]) -> int:
+    """
+    Opens .csv file with the connections and initiates them into the Station class.
+    
+    Returns the number of connections in the case.
+    """
     # Count number of stations    
     with open(station_file, "r") as f:
         next(f)

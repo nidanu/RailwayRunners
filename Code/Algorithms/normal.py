@@ -1,6 +1,6 @@
 import random
 import time
-from Code.functions import *
+from functions import *
 
 def normal(num_stations, num_connections, stations, list_connections, min_time):
     # Set variables for big loop

@@ -2,9 +2,7 @@
 """
 Configuration of a train class that travels between stations.
 """
-
 import random
-
 from Classes.station import Station
 from typing import List
 
