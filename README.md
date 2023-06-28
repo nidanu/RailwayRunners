@@ -36,7 +36,7 @@ The following list describes the most important folders and where to find them.
 - **/Classes**: Contains two classes used in this case
 
 ## Statistics
-We randomly drew 1.000 observations from each of the algorithms. Based on the Shapiro-Wilk test, the data did not meet the assumption of normality, W = 0.9558, p < .001. Based on the Levene test, the data also did not meet the assumption of homogeneity of variance, F(2, 2997) = 361.43, p < .001. Therefore, a Kruskal-Wallis test was performed. The algorithms differed significantly in score, H(2) = 1993.2, p < .001. Post-hoc  Tukey tests showed that the greedy algorithm performed superior to both the normal algorithm (p < .001) and the maximum algorithm (p< .001). Thus we conclude the greedy algorithm to be the most effective.
+We randomly drew 1.000 observations from each of the algorithms. Based on Based on the Shapiro-Wilk test, the data did not meet the assumption of normality, W = 0.912, p < .001. Based on the Levene test, the data also did not meet the assumption of homogeneity of variance, F(3, 3996) = 628.71, p < .001. Therefore, a Kruskal-Wallis test was performed. The algorithms differed significantly in score, H(3) = 3367.7, p < .001. Post-hoc Dunn tests showed that the postman algorithm performed superior to the normal algorithm (z = 48.426, p < .001), the maximum algorithm (z = 48.335, p< .001), and the greedy algorithm (z = -19.427, p < .001). Thus we conclude the postman algorithm to be the most effective.
 
 ## Authors
 - Nidanu O'Shea
