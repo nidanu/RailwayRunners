@@ -5,9 +5,8 @@ Runs simulation of train travelling through network map of all connections.
 from Code.Algorithms.greedy import greedy
 from Code.Algorithms.seven import seven_bridges 
 from Code.Algorithms.postman_tour import postman_algorithm
-from Code.Algorithms.heur import heur
+from Code.Algorithms.max import max
 from Code.Algorithms.normal import normal
-from Code.Algorithms.single import single
 from Code.functions import *
 from Code.load_info import postman_station
 from Code.choose_case import choose_case
@@ -20,20 +19,14 @@ def main():
     print("Styles:\n- normal\n- single\n- max\n- heur\n- greedy\n- 7\n- postman")
     style = input("What style of test? ")
     
-    # Contains all styles of tests 
-    if style.lower() == "max":
-        # find in main save
-        pass
-
-    elif style.lower() == "single":
-        single(num_stations, num_connections, stations, list_connections, min_time)
-
+    """Contains all styles of tests"""
     # Runs random for x amount of times    
-    elif style.lower() == "normal":
+    if style.lower() == "normal":
         normal(num_stations, num_connections, stations, list_connections, min_time)
-
-    elif style == "heur":
-        heur(num_stations, num_connections, stations, list_connections, min_time)
+    
+    # runs random + heuristics for x amount of times 
+    elif style.lower() == "max":
+        max(num_stations, num_connections, stations, list_connections, min_time)
         
     elif style == "7":
         seven_bridges(num_stations, num_connections, stations, list_connections, min_time, file_connections, max_time)
