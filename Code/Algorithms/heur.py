@@ -1,12 +1,9 @@
 import random
 import time
-import sys 
 import matplotlib.pyplot as plt
 from scipy import stats
-
-sys.path.append('..')
-from Classes.train import Train
-from functions import *
+from Code.Classes.train import Train
+from Code.functions import *
 
 
 def heur(num_stations, num_connections, stations, list_connections, min_time):

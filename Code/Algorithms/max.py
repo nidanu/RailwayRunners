@@ -5,7 +5,6 @@ By: Railway Runners
 
 Does: random algorithm + only maximum scores selection  for x amount of runs.
 """
-import random
 import time
 from Code.functions import *
 

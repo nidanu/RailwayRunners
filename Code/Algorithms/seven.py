@@ -1,4 +1,4 @@
-from Classes.bridges import Graph
+from Code.Classes.bridges import Graph
 
 def seven_bridges(num_stations, num_connections, stations, list_connections, min_time, file_connections, max_time): 
     # Create variables for score calculations

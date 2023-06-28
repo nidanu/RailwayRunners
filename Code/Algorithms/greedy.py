@@ -1,14 +1,11 @@
 #import keyboard 
 import random
 import sys
-sys.path.append('..')
-
-from Classes.station import Station
-from Classes.train import Train
-from load_info import create_list_of_stations, create_station_connections 
-
 from typing import List
-
+sys.path.append('..')
+from Code.Classes.station import Station
+from Code.Classes.train import Train
+from Code.load_info import create_list_of_stations, create_station_connections 
 
 def greedy(num_stations: int, num_connections: int, stations: List[Station], list_connections: List[List[int]], min_time: int, max_time: int, max_trajectories: int) -> None:
     progress = 0

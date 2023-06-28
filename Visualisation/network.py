@@ -7,8 +7,9 @@ the Station class.
 """
 #import networkx as nx
 import matplotlib.pyplot as plt
+import networkx as nx
 import sys
-#from pyvis.network import Network
+from pyvis.network import Network
 sys.path.append('..')
 from Code.Classes.station import Station
 from typing import Any, Type
@@ -79,8 +80,3 @@ def nx_network(Station: Type['Station']):
     net = Network(notebook=True)
     net.from_nx(G)
     net.write_html("../Visualisation/graph.html")
-   # pos = nx.spring_layout(G)  # Compute node positions
-    """nx.draw(G, pos, with_labels=True, node_color='lightblue', edge_color='gray')
-    labels = nx.get_edge_attributes(G, 'weight')
-    nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)
-    plt.show()"""

@@ -1,10 +1,8 @@
 import random
 import time
 import sys 
-
-sys.path.append('..')
-from Classes.train import Train
-from functions import *
+from Code.Classes.train import Train
+from Code.functions import *
 
 def single(num_stations, num_connections, stations, list_connections, min_time):
     # Create Train object with random start station

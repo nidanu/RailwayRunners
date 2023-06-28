@@ -1,11 +1,6 @@
 # A Python program to print Eulerian trail in a
 # given Eulerian or Semi-Eulerian Graph(vikramshirsath177) https://www.geeksforgeeks.org/paths-travel-nodes-using-edgeseven-bridges-konigsberg/
-import sys 
 from collections import defaultdict
-
-sys.path.append('..')
-from load_info import create_list_of_stations, create_station_connections 
-
 
 class Graph:	
     # Constructor and destructor

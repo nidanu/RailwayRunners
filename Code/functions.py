@@ -1,13 +1,9 @@
-from Classes.station import Station
-#from Classes.station_postman import *
-from Classes.train import Train
-from Classes.station import Station
+from Code.Classes.station import Station
+from Code.Classes.train import Train
+from Code.Classes.station import Station
 import matplotlib.pyplot as plt
 #from scipy import stats
 from typing import List, Tuple, NamedTuple
-
-import time
-import random
 
 """
 Functions for random algorithm  
