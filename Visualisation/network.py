@@ -5,10 +5,10 @@ Visualises train stop & their connections in a network map.
 The nodes are plotted using the coordinates of the stations as specified in 
 the Station class.
 """
-import networkx as nx
+#import networkx as nx
 import matplotlib.pyplot as plt
 import sys
-from pyvis.network import Network
+#from pyvis.network import Network
 sys.path.append('..')
 from Code.Classes.station import Station
 from typing import Any, Type

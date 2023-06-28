@@ -4,7 +4,7 @@ Algorithm for the Route Inspection Problem/Postman Tour. Makes use of Dijkstra's
 path algorithm.
 """
 import random
-import keyboard
+#import keyboard
 import copy
 import sys
 from statistics import mean
@@ -18,7 +18,7 @@ class Postman():
     """
     Class to tackle the Postman tour.
     """
-    def __init__(self, vertices: list[str], graph: Dict) -> None:
+    def __init__(self, vertices: List[str], graph: Dict) -> None:
         self.vertices: list[str] = vertices 
         self.graph: Dict = graph # {"A": {"B": 1}, "B": {"A": 3, "C": 5} ...}
 
@@ -414,7 +414,7 @@ class Postman():
                 circuit, trajectories = Postman.run_postman(copy_vertices, copy_graph, max_time)
                 #print(len(trajectories), trajectories, '\n\n')
                 score = Postman.calculate_score(trajectories)
-                print(score)
+                #print(score)
                 if len(trajectories) <= max_trajectories:
                     scores.append(score)
                     if scores:
