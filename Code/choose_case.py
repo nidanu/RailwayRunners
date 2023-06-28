@@ -3,8 +3,8 @@
 File to determine case for algorithms.
 """
 from typing import List, Tuple
-from Classes.station import Station
-from load_info import create_list_of_stations, create_station_connections
+from Code.Classes.station import Station
+from Code.load_info import create_list_of_stations, create_station_connections
 
 def choose_case() -> Tuple[int, int, str, str, List['Station'], List[Tuple[str, str]], int, int, int]:
     """
@@ -13,13 +13,13 @@ def choose_case() -> Tuple[int, int, str, str, List['Station'], List[Tuple[str, 
     """
     choose_case = input("Within Holland or the Netherlands? Select 'H' or 'N'. ")
     if choose_case.lower() == 'h':
-        file_stations = "../Cases/Holland/StationsHolland.csv"
-        file_connections = "../Cases/Holland/ConnectiesHolland.csv"
+        file_stations = "Cases/Holland/StationsHolland.csv"
+        file_connections = "Cases/Holland/ConnectiesHolland.csv"
         max_time = 120
         max_trajectories = 7
     elif choose_case.lower() == 'n':
-        file_stations = "../Cases/Netherlands/StationsNationaal.csv"
-        file_connections = "../Cases/Netherlands/ConnectiesNationaal.csv"
+        file_stations = "Cases/Netherlands/StationsNationaal.csv"
+        file_connections = "Cases/Netherlands/ConnectiesNationaal.csv"
         max_time = 180
         max_trajectories = 22
     else:

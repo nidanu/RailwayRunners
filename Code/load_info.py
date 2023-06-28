@@ -2,9 +2,9 @@
 """
 Loads info from .csv file into Station classes.
 """
-from Classes.station import Station
-from Classes.station_postman import Station_Postman
-from Classes.station import Station
+from Code.Classes.station import Station
+from Code.Classes.station_postman import Station_Postman
+from Code.Classes.station import Station
 from typing import List
 
 def create_list_of_stations(station_file: str) -> List:

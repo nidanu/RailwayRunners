@@ -2,18 +2,15 @@
 """
 Runs simulation of train travelling through network map of all connections.
 """
-import sys
-
-from Algorithms.greedy import greedy
-from Algorithms.seven import seven_bridges 
-from Algorithms.postman import Postman
-from Algorithms.heur import heur
-from Algorithms.normal import normal
-from Algorithms.single import single
-from functions import *
-from load_info import postman_station
-from choose_case import choose_case
-sys.path.append('..')
+from Code.Algorithms.greedy import greedy
+from Code.Algorithms.seven import seven_bridges 
+from Code.Algorithms.postman_tour import postman_algorithm
+from Code.Algorithms.heur import heur
+from Code.Algorithms.normal import normal
+from Code.Algorithms.single import single
+from Code.functions import *
+from Code.load_info import postman_station
+from Code.choose_case import choose_case
 from Visualisation.network import nx_network
 
 def main():
@@ -46,7 +43,7 @@ def main():
 
     elif style == "postman":
         stations, Station_Postman = postman_station(file_stations, file_connections)
-        Postman.postman_algorithm(max_time, max_trajectories)
+        postman_algorithm(max_time, max_trajectories)
 
     else:
         print("Please give an existing style.\nStyles:\n- normal\n- single\n- max\n- heur\n- greedy\n- 7\n- postman")

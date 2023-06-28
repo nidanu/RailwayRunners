@@ -12,23 +12,8 @@ import matplotlib.pyplot as plt
 import random
 import csv
 
-"""
-with open("postman.txt", "r") as f:
-    
-    for line in f.readlines():
-        if len(line) > 200:
-            all_postman_scores_str_list = line
-            all_postman_scores_list = all_postman_scores_str_list.split(",")
-            del all_postman_scores_list[0]
-            del all_postman_scores_list[-1]
-with open("postman_scores.txt", "a") as f:
-    for score in all_postman_scores_list:
-        f.write(score + "\n")
-    
-"""
-
 number_of_scores = int(input("Amount of random samples per dataset: "))
-datasets = ["postman_scores.txt"]
+datasets = ["greedy_scores.txt", "all_scores_n.txt", "all_scores_m.txt"]
 for dataset in datasets: 
     
     # Prints progress with names and lenght of documents
@@ -50,10 +35,9 @@ for dataset in datasets:
         
     average = statistics.mean(all_scores)
     median = statistics.median(all_scores)
-    
+
     print(f"Avarage: {average}")
     print(f"Median: {median}")
-    """
     print(f"Maximum: {max(all_scores)}")
     all_scores.remove(max(all_scores))
     print(f"Maximum: {max(all_scores)}")
@@ -67,6 +51,7 @@ for dataset in datasets:
         writer = csv.writer(f)
         for score in subsection_scores:
             writer.writerow([dataset, score])
+    
     """
     # Function that draws a histogram
     def draw_histogram(data, bins):
@@ -74,23 +59,25 @@ for dataset in datasets:
         plt.xlabel("Scores", fontsize=15, weight="bold")
         plt.ylabel("Frequency", fontsize=15, weight="bold")
         
-        if dataset == "greedy_scores.txt":
+        # Set the background color
+        plt.gca().set_facecolor('yellow')
+        plt.gca().set_alpha(0.1)
+        
+        if dataset == datasets[0]:
             plt.title("Greedy " + str(number_of_scores) + " Runs", fontsize=20)
-        if dataset == "all_scores_n.txt":
+        if dataset == datasets[1]:
             plt.title("GRandom " + str(number_of_scores) + " Runs", fontsize=20)
-        if dataset == "all_scores_m.txt":
+        if dataset == datasets[2]:
             plt.title("GRandom Max " + str(number_of_scores) + " Runs", fontsize=20)
-        if dataset == "postman_scores.txt":
-            plt.title("Postman" + str(number_of_scores) + " Runs", fontsize=20)
             
         plt.savefig("hist_" + dataset[:-4] + "_" + str(number_of_scores) + ".png", dpi=300)
         plt.close()
-    
+
     # Set hist variables 
     my_data = subsection_scores
     num_bins = 16
     draw_histogram(my_data, num_bins)
-
+    """
     """
     # Shapiro-Wilk Test
     shapiro_test = stats.shapiro(subsection_scores)
