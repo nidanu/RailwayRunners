@@ -9,7 +9,6 @@ This project is about creating a train routing system for intercity trains betwe
 To find a solution for the route several algorithms are possible:
 - Random: From a (random) starting station, selects a random connection until all connections have been used.
     - Normal: runs the random algorithm for a given amount of runs.
-    - Single: runs the random algorithm only once.
     - Max: runs the random algorithm for a given amount of runs with a number of heuristics.
 - Postman: From a (random) starting station, the postman tour problem is used to find a route.
 - Seven bridges: Uses the seven bridges problem to find a route.
