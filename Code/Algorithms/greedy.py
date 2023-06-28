@@ -1,4 +1,8 @@
-#import keyboard 
+"""
+Greedy algorithm for the RailNL case. 
+Picks random starting station and continues route to closest station nearby.
+"""
+
 import random
 import sys
 from typing import List
@@ -8,21 +12,25 @@ from Code.Classes.train import Train
 from Code.load_info import create_list_of_stations, create_station_connections 
 
 def greedy(num_stations: int, num_connections: int, stations: List[Station], list_connections: List[List[int]], min_time: int, max_time: int, max_trajectories: int) -> None:
+    """"
+        Runs the greedy algorithm.
+
+        Prints the route with the best score, and writes it to a txt file.
+    """
+    
+    # Create parameters for loop 
     progress = 0
     sum_scores = 0.0
     top_score = 0.0          
     all_scores = []
-
     list_connections_copy = list_connections
 
-    #num_runs = int(input("How many runs? "))
-   
+    # Run greedy algorithm till KeyboardInterrupt
     while True:
-        try: 
-            # Progress printer 
-            #if i == 1 or (i % (num_runs/10) == 0):
-                #print(f"{progress}%")
-                #progress += 10    
+
+        # Run greedy algorithm
+        try:     
+            # Count each run       
             progress += 1
 
             # Set up copy of list of connections
@@ -134,7 +142,7 @@ def greedy(num_stations: int, num_connections: int, stations: List[Station], lis
             # Save all scores
             all_scores.append(round(final_score, 0))
 
-            # Save best score and network
+            # Save best score and network and write network to txt file
             if final_score > top_score:
                 top_score = final_score
                 top_route = network  
@@ -143,16 +151,21 @@ def greedy(num_stations: int, num_connections: int, stations: List[Station], lis
                     for i in range(len(top_route)):
                         f.write(top_route[i])
                         f.write('\n')
-
+                
+                # Print current best network
                 print()
                 print(f"New best network: {round(top_score, 0)} points.")
                 for i in range(len(top_route)):
                     print(top_route[i])
+
+            # Print progress every 1.000 runs        
             if progress % 1000 == 0:
                 print(progress)
             
-            
-        except KeyboardInterrupt:            
+        # End algorithm at KeyboardInterrupt     
+        except KeyboardInterrupt:         
+
+            # Write all algorithm scores to txt file   
             with open('../Results/greedy_scores.txt', 'w') as f:
                 f.write(f"{str(progress)} runs")
                 f.write('\n')   
