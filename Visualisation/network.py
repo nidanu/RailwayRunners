@@ -12,6 +12,8 @@ import sys
 from pyvis.network import Network
 sys.path.append('..')
 from Code.Classes.station import Station
+from Code.Classes.station_postman import Station_Postman
+from Code.Algorithms.postman_tour import postman_algorithm
 from typing import Any, Type
 
 def network_map(Station: Type['Station']) -> Any:
@@ -79,4 +81,4 @@ def nx_network(Station: Type['Station']):
 
     net = Network(notebook=True)
     net.from_nx(G)
-    net.write_html("../Visualisation/graph.html")
+    net.write_html("Visualisation/graph.html")

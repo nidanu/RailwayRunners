@@ -18,7 +18,7 @@ def run_postman(vertices: List[str], graph: Dict, max_time: int) -> Tuple[List[s
     postman = Postman(vertices, graph)
 
     # Find odd vertices
-    odd = postman.odd_vertices()  
+    odd = postman.odd_vertices() 
     index_start = random.randint(0, len(odd) - 1)
     start_vertex = odd[index_start]
 
@@ -103,5 +103,5 @@ def postman_algorithm(max_time: int, max_trajectories: int) -> List[int]:
                 f.write("Minimum: %s\n" % minimum)
                 f.write("Average: %s\n" % round(average))
                 f.write(str(scores))
-
+                return best_trajectories
     

@@ -17,8 +17,8 @@ class Postman():
     - - - - - - - 
     - vertices: List[str]
         a list of station names that represent the vertices in the graph
-    - graph
-        the name of the station 
+    - graph: Dict[str, Dict[str, int]]
+        the connections between stations and the weight of the edge between them
     - connections: Dict[str, Dict[str, int]]
         the other stations that the station is connected to, 
         and how long the travel time is

@@ -10,7 +10,7 @@ from Code.Algorithms.normal import normal
 from Code.functions import *
 from Code.load_info import postman_station
 from Code.choose_case import choose_case
-from Visualisation.network import nx_network
+from Visualisation.network import  nx_network
 
 def main():
     num_connections, num_stations, file_stations, file_connections, stations, list_connections, min_time, max_time, max_trajectories = choose_case()
@@ -36,13 +36,8 @@ def main():
 
     elif style == "postman":
         stations, Station_Postman = postman_station(file_stations, file_connections)
-        postman_algorithm(max_time, max_trajectories)
-
+        best_trajectories = postman_algorithm(max_time, max_trajectories)
+    
     else:
         print("Please give an existing style.\nStyles:\n- normal\n- single\n- max\n- heur\n- greedy\n- 7\n- postman")
-
-def visuals():
-    num_connections, num_stations, file_stations, file_connections, stations, list_connections, min_time, max_time, max_trajectories = choose_case()
-    nx_network(stations)
-
 main()
